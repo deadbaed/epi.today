@@ -4,7 +4,12 @@
   "description": "what's on the calendar today at epitech?",
   "main": "index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "start": "node build/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/x4m3/epi.today.git"
   },
   "author": "Philippe Loctaux <p@philippeloctaux.com>",
   "license": "ISC",
@@ -12,12 +17,13 @@
     "@types/express": "^4.17.2",
     "@types/morgan": "^1.7.37",
     "@types/node": "^12.12.14",
+    "@types/pug": "^2.0.4",
     "typescript": "^3.7.3"
   },
   "dependencies": {
-    "@hapi/boom": "^8.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "pug": "^2.0.4"
   }
 }
