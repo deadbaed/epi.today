@@ -11,6 +11,6 @@ if (MODE === "undefined" || HOST === "undefined" || PORT === "undefined") {
 
 export default {
     MODE: MODE,
-    HOST: typeof HOST === "undefined" ? "localhost" : HOST,
-    PORT: typeof PORT === "undefined" ? 8000 : parseInt(PORT)
+    HOST: HOST,
+    PORT: PORT
 };
