@@ -3,6 +3,7 @@ import morgan from "morgan";
 
 const server = express();
 
+server.use(express.static("./public"));
 server.set("views", "./views");
 server.set("view engine", "pug");
 
