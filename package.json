@@ -19,6 +19,7 @@
     "@types/morgan": "^1.7.37",
     "@types/node": "^12.12.14",
     "@types/pug": "^2.0.4",
+    "@types/request": "^2.48.3",
     "typescript": "^3.7.3"
   },
   "dependencies": {
@@ -26,6 +27,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "morgan": "^1.9.1",
-    "pug": "^2.0.4"
+    "pug": "^2.0.4",
+    "request": "^2.88.0"
   }
 }
