@@ -4,7 +4,7 @@ type EventType = {
     semester: number;
     module: string;
     name: string;
-    registration: boolean;
+    registered: boolean;
 };
 
 /**
@@ -43,7 +43,13 @@ function getEvents(autologin: string, year: string, month: string, day: string) 
 
         if (res.statusCode == 200) {
             JSON.parse(JSON.stringify(body)).forEach((event: any) => {
-                console.log(event.acti_title);
+                console.log(`${event.semester} ${event.titlemodule} ${event.acti_title} ${event.event_registered}`);
+                EventList.push({
+                    semester: event.semester,
+                    module: event.titlemodule,
+                    name: event.acti_title,
+                    registered: (event.event_registered == "registered") ? true : false
+                });
             });
         }
     });
