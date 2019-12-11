@@ -16,15 +16,12 @@ export const get = (req: express.Request, res: express.Response, next: express.N
         registration: boolean;
     };
     let EventList: Array<EventType> = [];
-    let object;
 
     request(url, { json: true }, (err, res, body) => {
         if (err) { return console.log(err) }
 
         if (!err && res.statusCode == 200) {
-            object = JSON.parse(JSON.stringify(body));
-            console.log(object);
-            object.forEach((event: any) => {
+            JSON.parse(JSON.stringify(body)).forEach((event: any) => {
                 console.log(event.acti_title);
             });
         }
