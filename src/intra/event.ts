@@ -54,6 +54,10 @@ function getEvents(autologin: string, year: string, month: string, day: string) 
         }
     });
 
+    EventList.forEach(event => {
+        console.log(`done ${event.semester} ${event.module} ${event.name} ${event.registered}`);
+    });
+
     return EventList;
 };
 
