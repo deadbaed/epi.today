@@ -44,7 +44,7 @@ function getEvents(autologin: string, year: string, month: string, day: string) 
 
         if (res.statusCode == 200) {
             JSON.parse(JSON.stringify(body)).forEach((event: any) => {
-                console.log(`${event.semester} ${event.titlemodule} ${event.acti_title} ${event.event_registered}`);
+                console.log(`we are at ${event.semester} ${event.titlemodule} ${event.acti_title} ${event.event_registered}`);
                 EventList.push({
                     semester: event.semester,
                     module: event.titlemodule,
