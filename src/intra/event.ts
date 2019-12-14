@@ -16,8 +16,9 @@ type EventType = {
  * @returns URL ready to be used
  */
 function ConstructRequestURL(autologin: string, year: string, month: string, day: string) : string {
-    let RequestURL: string = "https://intra.epitech.eu/" + autologin;
+    let RequestURL: string;
 
+    RequestURL  = "https://intra.epitech.eu/" + autologin;
     RequestURL += "/planning/load?format=json";
     RequestURL += "&start=" + year + "-" + month + "-" + day;
     RequestURL += "&end=" + year + "-" + month + "-" + day;
@@ -51,13 +52,13 @@ function getEvents(autologin: string, year: string, month: string, day: string) 
                     registered: (event.event_registered == "registered") ? true : false
                 });
             });
+            EventList.forEach(event => {
+                console.log(`done ${event.semester} ${event.module} ${event.name} ${event.registered}`);
+            });
         }
     });
 
-    EventList.forEach(event => {
-        console.log(`done ${event.semester} ${event.module} ${event.name} ${event.registered}`);
-    });
-
+    console.log("done");
     return EventList;
 };
 
