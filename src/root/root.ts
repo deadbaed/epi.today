@@ -10,7 +10,7 @@ export const get = (req: express.Request, res: express.Response, next: express.N
         console.log(`${event.semester} ${event.module} ${event.name} ${event.registered}`);
     });
 
-    return res.render("root", {
+    return res.render("pages/root", {
         date: dateformat(Date.now(), "dddd, mmmm dS")
     });
 };

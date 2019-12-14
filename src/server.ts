@@ -23,7 +23,7 @@ server.get("/uptime", (req: express.Request, res: express.Response) => {
 // 404
 server.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
     res.status(404);
-    res.render("404");
+    res.render("pages/404");
 });
 
 export default server;
