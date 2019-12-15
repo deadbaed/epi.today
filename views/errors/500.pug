@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+  include ../navbar
+  #main.container
+    h1 500 error on server
+    p An error on the server happened and your request could not finish
+
+    if technical_error
+      h2 Technical error
+      code #{technical_error}
+
+    p #[a(href="/") Go to homepage]

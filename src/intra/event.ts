@@ -52,7 +52,15 @@ function getEvents(autologin: string, year: string, month: string, day: string) 
 
         if (res.statusCode == 200) {
             console.log("intra 200");
-            JSON.parse(JSON.stringify(body)).forEach((event: any) => {
+
+            /* TODO: maybe use something else than JSON.stringify and JSON.parse:
+             * they are blocking functions and data can be lost
+             */
+            const json_string = JSON.stringify(body);
+            const json_parsed = JSON.parse(json_string);
+            // TODO: handle when parsing failed
+
+            json_parsed.forEach((event: any) => {
                 console.log(`we are at ${event.semester} ${event.titlemodule} ${event.acti_title} ${event.event_registered}`);
                 EventList.push({
                     semester: event.semester,

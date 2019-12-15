@@ -18,6 +18,7 @@ import dateRoutes from "./date/routes";
 server.use("/", rootRoutes);
 server.use("/", dateRoutes);
 
+// if /uptime works server is ok
 server.get("/uptime", (req: express.Request, res: express.Response) => {
     return res.status(200).json({ uptime: process.uptime() });
 });
@@ -25,7 +26,7 @@ server.get("/uptime", (req: express.Request, res: express.Response) => {
 // 404
 server.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
     res.status(404);
-    res.render("pages/404");
+    res.render("errors/404");
 });
 
 export default server;
