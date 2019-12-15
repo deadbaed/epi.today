@@ -4,7 +4,7 @@ block content
   include ../navbar
   #main.container
     h1.text-center #{date}
-    if events === 0
+    if events != 0
       for event in events
         .card
           .card-body
