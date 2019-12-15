@@ -76,7 +76,7 @@ function getEvents(autologin: string, year: string, month: string, day: string) 
 
     request(RequestURL, RequestOptions, (err, res, body) => {
         if (err) {
-            // TODO: return error 500 with error code or handle when connection could not complete
+            // TODO: return error 500 with error code and handle when connection could not complete
             console.log(err);
             console.log("intra request() error");
         }
