@@ -50,6 +50,7 @@ export const SpecificDate = (req: express.Request, res: express.Response, next: 
 
     console.log("rendering page");
     return res.render("pages/date", {
-        date: dateformat(date, "dddd, mmmm dS")
+        date: dateformat(date, "dddd, mmmm dS"),
+        events: EventList
     });
 };

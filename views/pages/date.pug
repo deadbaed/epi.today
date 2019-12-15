@@ -4,10 +4,14 @@ block content
   include ../navbar
   #main.container
     h1.text-center #{date}
-    .card
-      .card-body
-        h5.card-title Event
-        h6.card-subtitle.mb-2.text-muted Module
-        p.card-text maybe more info about event?
-        a.card-link(href="#") link
-        a.card-link(href="#") other link
+    if events === 0
+      for event in events
+        .card
+          .card-body
+            h5.card-title Event
+            h6.card-subtitle.mb-2.text-muted Module
+            p.card-text maybe more info about event?
+            a.card-link(href="#") link
+            a.card-link(href="#") other link
+    else
+      p No events
