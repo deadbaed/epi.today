@@ -10,6 +10,7 @@ type EventType = {
         end: string;
     };
     url: string;
+    studentsRegistered: string;
 };
 
 /**
@@ -113,7 +114,8 @@ function getEvents(autologin: string, year: string, month: string, day: string) 
                         start: event.start,
                         end: event.end
                     },
-                    url: "https://intra.epitech.eu/module/" + event.scolaryear + "/" + event.codemodule + "/" + event.codeinstance + "/" + event.codeacti + "/"
+                    url: "https://intra.epitech.eu/module/" + event.scolaryear + "/" + event.codemodule + "/" + event.codeinstance + "/" + event.codeacti + "/",
+                    studentsRegistered: "https://intra.epitech.eu/module/" + event.scolaryear + "/" + event.codemodule + "/" + event.codeinstance + "/" + event.codeacti + "/" + event.codeevent + "/registered/"
                 });
             });
             EventList.forEach(event => {

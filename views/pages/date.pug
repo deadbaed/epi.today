@@ -9,9 +9,9 @@ block content
         .card
           .card-body
             if event.registered == true
-              h5.card-title #{event.name} #[span.badge.badge-success Registered]
+              h5.card-title #{event.name} #[a(href=event.studentsRegistered).badge.badge-success Registered]
             else
-              h5.card-title #{event.name} #[span.badge.badge-danger Not registered]
+              h5.card-title #{event.name} #[a(href=event.studentsRegistered).badge.badge-danger Not registered]
             h6.card-subtitle.mb-2.text-muted #{event.module}
             p.card-text maybe more info about event?
             p.card-text From #[span.badge.badge-primary #{event.time.start}] to #[span.badge.badge-secondary #{event.time.end}]
