@@ -1,7 +1,7 @@
 import express from "express";
 import moment from "moment";
 import env from "../env";
-import { EventType, getEvents } from "../intra/event";
+import { IntraRequestType, EventType, ErrorCode, getEvents } from "../intra/event";
 
 /**
  * Redirects to calendar page with today's date
@@ -28,8 +28,8 @@ export const SpecificDate = (req: express.Request, res: express.Response, next: 
     const date = moment(req.params.year + "-" + req.params.month + "-" + req.params.day);
 
     if (date.isValid() == false) {
-        return res.render("errors/400", {
-            error: "You asked for a date that does not exist"
+        return res.status(400).render("errors/400", {
+            reason: "You asked for a date that does not exist"
         });
     }
     // TODO: maybe handle february 28/29/30/31 ? (on feb 31 it returns march 3)
@@ -39,18 +39,40 @@ export const SpecificDate = (req: express.Request, res: express.Response, next: 
     const month: string = moment(date).format("MM");
     const day: string = moment(date).format("DD");
 
-    let EventList: Array<EventType> = [];
-    EventList = getEvents(<string>env.AUTOLOGIN, year, month, day);
-    EventList.push({ semester: 3, module: "module", name: "event", registered: true, time: { start: "09:00:00", end: "21:30:00" }, url: "http://x", studentsRegistered: "http://x" });
-    EventList.push({ semester: 1, module: "module2", name: "event2", registered: false, time: { start: "09:00:00", end: "21:30:00" }, url: "http://x", studentsRegistered: "http://x" });
+    let IntraRequest: IntraRequestType = getEvents(<string>env.AUTOLOGIN, year, month, day);
 
-    EventList.forEach((event: EventType) => {
+    if (IntraRequest.Error?.code == ErrorCode.Network) {
+        return res.status(500).render("errors/500", {
+            technical_error: IntraRequest.Error.message
+        });
+    }
+
+    if (IntraRequest.Error?.code == ErrorCode.HTTP403) {
+        return res.status(403).render("errors/403");
+    }
+
+    if (IntraRequest.Error?.code == ErrorCode.HTTPGeneric) {
+        return res.status(500).render("errors/500", {
+            technical_error: IntraRequest.Error.message
+        });
+    }
+
+    if (IntraRequest.Error?.code == ErrorCode.BadParsing) {
+        return res.status(500).render("errors/500", {
+            technical_error: IntraRequest.Error.message
+        });
+    }
+
+    IntraRequest.EventList.push({ semester: 3, module: "module", name: "event", registered: true, time: { start: "09:00:00", end: "21:30:00" }, url: "http://x", studentsRegistered: "http://x" });
+    IntraRequest.EventList.push({ semester: 1, module: "module2", name: "event2", registered: false, time: { start: "09:00:00", end: "21:30:00" }, url: "http://x", studentsRegistered: "http://x" });
+
+    IntraRequest.EventList.forEach((event: EventType) => {
         console.log(`${event.semester} ${event.module} ${event.name} ${event.registered} from ${event.time.start} to ${event.time.end} ${event.url}`);
     });
 
     console.log("rendering page");
     return res.render("pages/date", {
         date: moment(date).format("dddd, MMMM Do"),
-        events: EventList
+        events: IntraRequest.EventList
     });
 };

@@ -13,6 +13,23 @@ type EventType = {
     studentsRegistered: string;
 };
 
+enum ErrorCode {
+    Network,
+    HTTP403,
+    HTTPGeneric,
+    BadParsing
+}
+
+type ErrorType = {
+    code: ErrorCode;
+    message?: String;
+};
+
+type IntraRequestType = {
+    EventList: Array<EventType>;
+    Error?: ErrorType;
+};
+
 /**
  * Construct events request URL of a date
  * @param autologin user's intra autologin link
@@ -58,8 +75,10 @@ function isJSONParsingEmpty(json_parsed: any) : boolean {
  * @param day day of events
  * @returns Array of matching events (empty array if there are no events) or an error
  */
-function getEvents(autologin: string, year: string, month: string, day: string) : Array<EventType> {
-    let EventList: Array<EventType> = [];
+function getEvents(autologin: string, year: string, month: string, day: string) : IntraRequestType {
+    /* declare an empty IntraRequestType with a empty EventList */
+    let IntraRequest: IntraRequestType = <IntraRequestType>{};
+    IntraRequest.EventList = [];
 
     const RequestURL = ConstructRequestURL(autologin, year, month, day);
     const RequestOptions: request.CoreOptions = {
@@ -71,14 +90,26 @@ function getEvents(autologin: string, year: string, month: string, day: string) 
 
     request(RequestURL, RequestOptions, (err, res, body) => {
         if (err) {
-            // TODO: return error 500 with error code and handle when connection could not complete
-            console.log(err);
-            console.log("intra request() error");
+            IntraRequest.Error = <ErrorType>{};
+            IntraRequest.Error.code = ErrorCode.Network;
+            IntraRequest.Error.message = err;
+            console.log(`request() error ${err}`);
+            return IntraRequest;
         }
 
         if (res.statusCode == 403) {
-            console.log("intra 403");
-            //TODO: handle when user is not logged in or does not have access to intra (banned user?)
+            IntraRequest.Error = <ErrorType>{};
+            IntraRequest.Error.code = ErrorCode.HTTP403;
+            console.error("intra 403");
+            return IntraRequest;
+        }
+
+        if (res.statusCode != 200) {
+            IntraRequest.Error = <ErrorType>{};
+            IntraRequest.Error.code = ErrorCode.HTTPGeneric;
+            IntraRequest.Error.message = `Intra replied HTTP ${res.statusCode}: ${res.statusMessage}`
+            console.error(`http error code ${res.statusCode}: ${res.statusMessage}`);
+            return IntraRequest;
         }
 
         if (res.statusCode == 200) {
@@ -93,22 +124,24 @@ function getEvents(autologin: string, year: string, month: string, day: string) 
 
             try {
                 json_parsed = JSON.parse(json_string);
-                // json_parsed = JSON.parse("{\"abd:\"jane}");
-            } catch(err) {
-                console.log(err.message);
-                // TODO: return page 500 with technical error if applicable when parsing failed
+                // json_parsed = JSON.parse("{\"abd:\"jane}"); // used to simulate a bad json string
+            } catch (err) {
+                IntraRequest.Error = <ErrorType>{};
+                IntraRequest.Error.code = ErrorCode.BadParsing;
+                IntraRequest.Error.message = err.message;
+                console.error(err.message);
+                return IntraRequest;
             }
 
             /* if there are no events */
             if (isJSONParsingEmpty(json_parsed) == true) {
                 console.log("no events");
-                /* return an empty EventList */
-                return EventList;
+                return IntraRequest;
             }
 
             json_parsed.forEach((event: any) => {
                 console.log(`we are at ${event.semester} ${event.titlemodule} ${event.acti_title} ${event.event_registered} from ${event.start} to ${event.end} 'https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/'`);
-                EventList.push({
+                IntraRequest.EventList.push({
                     semester: event.semester,
                     module: event.titlemodule,
                     name: event.acti_title,
@@ -121,14 +154,14 @@ function getEvents(autologin: string, year: string, month: string, day: string) 
                     studentsRegistered: "https://intra.epitech.eu/module/" + event.scolaryear + "/" + event.codemodule + "/" + event.codeinstance + "/" + event.codeacti + "/" + event.codeevent + "/registered/"
                 });
             });
-            EventList.forEach(event => {
+            IntraRequest.EventList.forEach(event => {
                 console.log(`done ${event.semester} ${event.module} ${event.name} ${event.registered} from ${event.time.start} to ${event.time.end} ${event.url}`);
             });
         }
     });
 
     console.log("done");
-    return EventList;
+    return IntraRequest;
 };
 
-export { EventType, getEvents };
+export { IntraRequestType, EventType, ErrorCode, getEvents };
