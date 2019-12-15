@@ -92,8 +92,8 @@ function getEvents(autologin: string, year: string, month: string, day: string) 
             let json_parsed;
 
             try {
-                // json_parsed = JSON.parse(json_string);
-                json_parsed = JSON.parse("{\"abd:\"jane}");
+                json_parsed = JSON.parse(json_string);
+                // json_parsed = JSON.parse("{\"abd:\"jane}");
             } catch(err) {
                 console.log(err.message);
                 // TODO: return page 500 with technical error if applicable when parsing failed
