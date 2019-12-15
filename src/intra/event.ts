@@ -28,7 +28,7 @@ function ConstructRequestURL(autologin: string, year: string, month: string, day
 
 /**
  * Function checking if a parsed JSON Object is empty or not
- * Dirty function, I stole it here:
+ * Warning: Dirty function that I didn't write, stole it here:
  * https://coderwall.com/p/_g3x9q/how-to-check-if-javascript-object-is-empty
  * @param json_parsed parsed JSON
  * @returns whether if Object is empty or not
@@ -64,7 +64,7 @@ function getEvents(autologin: string, year: string, month: string, day: string) 
 
         if (res.statusCode == 403) {
             console.log("intra 403");
-            //TODO: user is not logged in, handle that
+            //TODO: handle when user is not logged in or does not have access to intra (banned user?)
         }
 
         if (res.statusCode == 200) {
@@ -75,10 +75,11 @@ function getEvents(autologin: string, year: string, month: string, day: string) 
              */
             const json_string = JSON.stringify(body);
             const json_parsed = JSON.parse(json_string);
-            // TODO: handle when parsing failed
+            // TODO: return page 500 with technical error if applicable when parsing failed
 
             /* if there are no events */
             if (isJSONParsingEmpty(json_parsed) == true) {
+                console.log("no events");
                 /* return an empty EventList */
                 return EventList;
             }
