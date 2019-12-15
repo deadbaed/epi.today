@@ -27,12 +27,29 @@ function ConstructRequestURL(autologin: string, year: string, month: string, day
 };
 
 /**
+ * Function checking if a parsed JSON Object is empty or not
+ * Dirty function, I stole it here:
+ * https://coderwall.com/p/_g3x9q/how-to-check-if-javascript-object-is-empty
+ * @param json_parsed parsed JSON
+ * @returns whether if Object is empty or not
+ */
+function isJSONParsingEmpty(json_parsed: any) : boolean {
+    for (var key in json_parsed) {
+        if (json_parsed.hasOwnProperty(key)) {
+            /* object is not empty if a key has its own property */
+            return false;
+        }
+    }
+    return true;
+};
+
+/**
  * Downloads list of events of a particular date
  * @param autologin user's intra autologin link
  * @param year year of events
  * @param month  month of events
  * @param day day of events
- * @returns Array of matching events
+ * @returns Array of matching events (or empty array if there are no events)
  */
 function getEvents(autologin: string, year: string, month: string, day: string) : Array<EventType> {
     let EventList: Array<EventType> = [];
@@ -59,6 +76,12 @@ function getEvents(autologin: string, year: string, month: string, day: string) 
             const json_string = JSON.stringify(body);
             const json_parsed = JSON.parse(json_string);
             // TODO: handle when parsing failed
+
+            /* if there are no events */
+            if (isJSONParsingEmpty(json_parsed) == true) {
+                /* return an empty EventList */
+                return EventList;
+            }
 
             json_parsed.forEach((event: any) => {
                 console.log(`we are at ${event.semester} ${event.titlemodule} ${event.acti_title} ${event.event_registered}`);
