@@ -8,7 +8,6 @@ export const get = (req: express.Request, res: express.Response, next: express.N
     const month: string = req.params.month;
     const day: string = req.params.day;
 
-    console.log(req);
     let EventList: Array<EventType> = getEvents(<string>env.AUTOLOGIN, year, month, day);
 
     EventList.forEach((event: EventType) => {
