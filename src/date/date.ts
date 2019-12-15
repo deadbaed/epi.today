@@ -3,10 +3,44 @@ import dateformat from "dateformat";
 import env from "../env";
 import { EventType, getEvents } from "../intra/event";
 
-export const get = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const year: string = req.params.year;
-    const month: string = req.params.month;
-    const day: string = req.params.day;
+/**
+ * Redirects to calendar page with today's date
+ */
+export const Today = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const date = Date.now();
+
+    const year: string = dateformat(date, "yyyy");
+    const month: string = dateformat(date, "mm");
+    const day: string = dateformat(date, "dd");
+
+    return res.redirect("/" + year + "/" + month + "/" + day);
+};
+
+/**
+ * Redirects to calendar page with tomorrow's date
+ */
+export const Tomorrow = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    /* current date +1 */
+    const date = new Date().setDate(new Date().getDate()+1);
+
+    const year: string = dateformat(date, "yyyy");
+    const month: string = dateformat(date, "mm");
+    const day: string = dateformat(date, "dd");
+
+    return res.redirect("/" + year + "/" + month + "/" + day);
+};
+
+/**
+ * Renders calendar page with specific date (in format YYYYMMDD)
+ */
+export const SpecificDate = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const date: Date = new Date(req.params.year + "-" + req.params.month + "-" + req.params.day);
+    // TODO: handle invalid dates here
+    // TODO: handle 1 digit months and days and redirect to correct format
+
+    const year: string = dateformat(date, "yyyy");
+    const month: string = dateformat(date, "mm");
+    const day: string = dateformat(date, "dd");
 
     let EventList: Array<EventType> = getEvents(<string>env.AUTOLOGIN, year, month, day);
 
@@ -16,6 +50,6 @@ export const get = (req: express.Request, res: express.Response, next: express.N
 
     console.log("rendering page");
     return res.render("pages/date", {
-        date: dateformat(new Date(year + "-" + month + "-" + day), "dddd, mmmm dS")
+        date: dateformat(date, "dddd, mmmm dS")
     });
 };
