@@ -9,6 +9,7 @@ type EventType = {
         start: string;
         end: string;
     };
+    url: string;
 };
 
 /**
@@ -102,7 +103,7 @@ function getEvents(autologin: string, year: string, month: string, day: string) 
             }
 
             json_parsed.forEach((event: any) => {
-                console.log(`we are at ${event.semester} ${event.module} ${event.name} ${event.registered} from ${event.start} to ${event.end}`);
+                console.log(`we are at ${event.semester} ${event.titlemodule} ${event.acti_title} ${event.event_registered} from ${event.start} to ${event.end} 'https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/'`);
                 EventList.push({
                     semester: event.semester,
                     module: event.titlemodule,
@@ -111,11 +112,12 @@ function getEvents(autologin: string, year: string, month: string, day: string) 
                     time: {
                         start: event.start,
                         end: event.end
-                    }
+                    },
+                    url: "https://intra.epitech.eu/module/" + event.scolaryear + "/" + event.codemodule + "/" + event.codeinstance + "/" + event.codeacti + "/"
                 });
             });
             EventList.forEach(event => {
-                console.log(`done ${event.semester} ${event.module} ${event.name} ${event.registered} from ${event.time.start} to ${event.time.end}`);
+                console.log(`done ${event.semester} ${event.module} ${event.name} ${event.registered} from ${event.time.start} to ${event.time.end} ${event.url}`);
             });
         }
     });

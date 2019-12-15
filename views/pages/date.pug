@@ -15,7 +15,7 @@ block content
             h6.card-subtitle.mb-2.text-muted #{event.module}
             p.card-text maybe more info about event?
             p.card-text From #[span.badge.badge-primary #{event.time.start}] to #[span.badge.badge-secondary #{event.time.end}]
-            a.card-link(href="#") See event on intra
+            a.card-link.btn.btn-outline-primary(href=event.url) See event on intra
     else
       .card
         .card-body
