@@ -40,9 +40,18 @@ function getEvents(autologin: string, year: string, month: string, day: string) 
     let QueryURL = ConstructRequestURL(autologin, year, month, day);
 
     request(QueryURL, { json: true }, (err, res, body) => {
-        if (err) { return console.log(err) }
+        if (err) {
+            console.log("intra request() error");
+            //TODO: handle when intra is down
+        }
+
+        if (res.statusCode == 403) {
+            console.log("intra 403");
+            //TODO: user is not logged in, handle that
+        }
 
         if (res.statusCode == 200) {
+            console.log("intra 200");
             JSON.parse(JSON.stringify(body)).forEach((event: any) => {
                 console.log(`we are at ${event.semester} ${event.titlemodule} ${event.acti_title} ${event.event_registered}`);
                 EventList.push({
