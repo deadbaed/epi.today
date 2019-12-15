@@ -25,6 +25,7 @@ function ConstructRequestURL(autologin: string, year: string, month: string, day
     let RequestURL: string;
 
     RequestURL  = "https://intra.epitech.eu/" + autologin;
+    // RequestURL  = "https://localhost/" + autologin;
     RequestURL += "/planning/load?format=json";
     RequestURL += "&start=" + year + "-" + month + "-" + day;
     RequestURL += "&end=" + year + "-" + month + "-" + day;
@@ -65,12 +66,19 @@ function return_invaid_json() : any {
 function getEvents(autologin: string, year: string, month: string, day: string) : Array<EventType> {
     let EventList: Array<EventType> = [];
 
-    let QueryURL = ConstructRequestURL(autologin, year, month, day);
+    const RequestURL = ConstructRequestURL(autologin, year, month, day);
+    const RequestOptions: request.CoreOptions = {
+        json: true,
+        headers: {
+            "User-Agent": "epi.today"
+        }
+    };
 
-    request(QueryURL, { json: true }, (err, res, body) => {
+    request(RequestURL, RequestOptions, (err, res, body) => {
         if (err) {
+            // TODO: return error 500 with error code or handle when connection could not complete
+            console.log(err);
             console.log("intra request() error");
-            //TODO: handle when intra is down
         }
 
         if (res.statusCode == 403) {
