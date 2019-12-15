@@ -50,11 +50,6 @@ function isJSONParsingEmpty(json_parsed: any) : boolean {
     return true;
 };
 
-function return_invaid_json() : any {
-    let json = "{\"abd:\"jane}";
-    return json;
-}
-
 /**
  * Downloads list of events of a particular date
  * @param autologin user's intra autologin link
@@ -91,14 +86,14 @@ function getEvents(autologin: string, year: string, month: string, day: string) 
 
             /* TODO: maybe use something else than JSON.stringify and JSON.parse:
              * they are blocking functions and data can be lost
+             * more info here: https://medium.com/@pmzubar/why-json-parse-json-stringify-is-a-bad-practice-to-clone-an-object-in-javascript-b28ac5e36521
              */
             const json_string = JSON.stringify(body);
-            let invalid_json = return_invaid_json();
             let json_parsed;
 
             try {
-                json_parsed = JSON.parse(json_string);
-                // json_parsed = JSON.parse(invalid_json);
+                // json_parsed = JSON.parse(json_string);
+                json_parsed = JSON.parse("{\"abd:\"jane}");
             } catch(err) {
                 console.log(err.message);
                 // TODO: return page 500 with technical error if applicable when parsing failed
