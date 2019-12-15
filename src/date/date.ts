@@ -35,7 +35,7 @@ export const Tomorrow = (req: express.Request, res: express.Response, next: expr
  */
 export const SpecificDate = (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const date: Date = new Date(req.params.year + "-" + req.params.month + "-" + req.params.day);
-    // TODO: handle invalid dates here
+    // TODO: handle invalid date -> render 400 page bad request with intra url as debug
     // TODO: handle 1 digit months and days and redirect to correct format
 
     const year: string = dateformat(date, "yyyy");
