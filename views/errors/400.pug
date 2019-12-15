@@ -3,7 +3,7 @@ extends ../layout
 block content
   include ../navbar
   #main.container
-    h1 404 page not found
-    p The page you requested could not be found.
+    h1 400 bad request
+    p #{error}
 
     p #[a(href="/") Go to homepage]

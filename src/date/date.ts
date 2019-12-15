@@ -1,5 +1,5 @@
 import express from "express";
-import dateformat from "dateformat";
+import moment from "moment";
 import env from "../env";
 import { EventType, getEvents } from "../intra/event";
 
@@ -7,40 +7,37 @@ import { EventType, getEvents } from "../intra/event";
  * Redirects to calendar page with today's date
  */
 export const Today = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const date = Date.now();
+    const date = moment().format("/YYYY/MM/DD");
 
-    const year: string = dateformat(date, "yyyy");
-    const month: string = dateformat(date, "mm");
-    const day: string = dateformat(date, "dd");
-
-    return res.redirect("/" + year + "/" + month + "/" + day);
+    return res.redirect(date);
 };
 
 /**
  * Redirects to calendar page with tomorrow's date
  */
 export const Tomorrow = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    /* current date +1 */
-    const date = new Date().setDate(new Date().getDate()+1);
+    const date = moment(new Date()).add(1, "days").format("/YYYY/MM/DD");
 
-    const year: string = dateformat(date, "yyyy");
-    const month: string = dateformat(date, "mm");
-    const day: string = dateformat(date, "dd");
-
-    return res.redirect("/" + year + "/" + month + "/" + day);
+    return res.redirect(date);
 };
 
 /**
  * Renders calendar page with specific date (in format YYYYMMDD)
  */
 export const SpecificDate = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const date: Date = new Date(req.params.year + "-" + req.params.month + "-" + req.params.day);
-    // TODO: handle invalid date -> render 400 page bad request with intra url as debug
+    const date = moment(req.params.year + "-" + req.params.month + "-" + req.params.day);
+
+    if (date.isValid() == false) {
+        return res.render("errors/400", {
+            error: "You asked for a date that does not exist"
+        });
+    }
+    // TODO: maybe handle february 28/29/30/31 ? (on feb 31 it returns march 3)
     // TODO: handle 1 digit months and days and redirect to correct format
 
-    const year: string = dateformat(date, "yyyy");
-    const month: string = dateformat(date, "mm");
-    const day: string = dateformat(date, "dd");
+    const year: string = moment(date).format("YYYY");
+    const month: string = moment(date).format("MM");
+    const day: string = moment(date).format("DD");
 
     let EventList: Array<EventType> = [];
     EventList = getEvents(<string>env.AUTOLOGIN, year, month, day);
@@ -53,7 +50,7 @@ export const SpecificDate = (req: express.Request, res: express.Response, next: 
 
     console.log("rendering page");
     return res.render("pages/date", {
-        date: dateformat(date, "dddd, mmmm dS"),
+        date: moment(date).format("dddd, MMMM Do"),
         events: EventList
     });
 };

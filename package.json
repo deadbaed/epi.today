@@ -7,7 +7,7 @@
     "build": "tsc",
     "start": "node build/app.js",
     "dev": "nodemon src/app.ts",
-    "debug" : "nodemon --inspect src/app.ts"
+    "debug": "nodemon --inspect src/app.ts"
   },
   "repository": {
     "type": "git",
@@ -16,7 +16,6 @@
   "author": "Philippe Loctaux <p@philippeloctaux.com>",
   "license": "ISC",
   "devDependencies": {
-    "@types/dateformat": "^3.0.1",
     "@types/express": "^4.17.2",
     "@types/morgan": "^1.7.37",
     "@types/node": "^12.12.14",
@@ -27,16 +26,16 @@
     "typescript": "^3.7.3"
   },
   "dependencies": {
-    "dateformat": "^3.0.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "moment": "^2.24.0",
     "morgan": "^1.9.1",
     "pug": "^2.0.4",
     "request": "^2.88.0"
   },
   "nodemonConfig": {
     "restartable": "rs",
-    "verbose" : "true",
+    "verbose": "true",
     "execMap": {
       "ts": "node --require ts-node/register"
     },
