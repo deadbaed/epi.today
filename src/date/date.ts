@@ -43,12 +43,12 @@ export const SpecificDate = (req: express.Request, res: express.Response, next: 
     const day: string = dateformat(date, "dd");
 
     let EventList: Array<EventType> = [];
-    EventList.push({ semester: 3, module: "module", name: "event", registered: true });
-    EventList.push({ semester: 1, module: "module2", name: "event2", registered: false });
     EventList = getEvents(<string>env.AUTOLOGIN, year, month, day);
+    EventList.push({ semester: 3, module: "module", name: "event", registered: true, time: { start: "09:00:00", end: "21:30:00" } });
+    EventList.push({ semester: 1, module: "module2", name: "event2", registered: false, time: { start: "09:00:00", end: "21:30:00" } });
 
     EventList.forEach((event: EventType) => {
-        console.log(`${event.semester} ${event.module} ${event.name} ${event.registered}`);
+        console.log(`${event.semester} ${event.module} ${event.name} ${event.registered} from ${event.time.start} to ${event.time.end}`);
     });
 
     console.log("rendering page");

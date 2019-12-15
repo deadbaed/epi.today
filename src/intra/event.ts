@@ -5,6 +5,10 @@ type EventType = {
     module: string;
     name: string;
     registered: boolean;
+    time: {
+        start: string;
+        end: string;
+    };
 };
 
 /**
@@ -43,13 +47,18 @@ function isJSONParsingEmpty(json_parsed: any) : boolean {
     return true;
 };
 
+function return_invaid_json() : any {
+    let json = "{\"abd:\"jane}";
+    return json;
+}
+
 /**
  * Downloads list of events of a particular date
  * @param autologin user's intra autologin link
  * @param year year of events
  * @param month  month of events
  * @param day day of events
- * @returns Array of matching events (or empty array if there are no events)
+ * @returns Array of matching events (empty array if there are no events) or an error
  */
 function getEvents(autologin: string, year: string, month: string, day: string) : Array<EventType> {
     let EventList: Array<EventType> = [];
@@ -74,8 +83,16 @@ function getEvents(autologin: string, year: string, month: string, day: string) 
              * they are blocking functions and data can be lost
              */
             const json_string = JSON.stringify(body);
-            const json_parsed = JSON.parse(json_string);
-            // TODO: return page 500 with technical error if applicable when parsing failed
+            let invalid_json = return_invaid_json();
+            let json_parsed;
+
+            try {
+                json_parsed = JSON.parse(json_string);
+                // json_parsed = JSON.parse(invalid_json);
+            } catch(err) {
+                console.log(err.message);
+                // TODO: return page 500 with technical error if applicable when parsing failed
+            }
 
             /* if there are no events */
             if (isJSONParsingEmpty(json_parsed) == true) {
@@ -85,16 +102,20 @@ function getEvents(autologin: string, year: string, month: string, day: string) 
             }
 
             json_parsed.forEach((event: any) => {
-                console.log(`we are at ${event.semester} ${event.titlemodule} ${event.acti_title} ${event.event_registered}`);
+                console.log(`we are at ${event.semester} ${event.module} ${event.name} ${event.registered} from ${event.start} to ${event.end}`);
                 EventList.push({
                     semester: event.semester,
                     module: event.titlemodule,
                     name: event.acti_title,
-                    registered: (event.event_registered == "registered") ? true : false
+                    registered: (event.event_registered == "registered") ? true : false,
+                    time: {
+                        start: event.start,
+                        end: event.end
+                    }
                 });
             });
             EventList.forEach(event => {
-                console.log(`done ${event.semester} ${event.module} ${event.name} ${event.registered}`);
+                console.log(`done ${event.semester} ${event.module} ${event.name} ${event.registered} from ${event.time.start} to ${event.time.end}`);
             });
         }
     });
