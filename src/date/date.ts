@@ -42,7 +42,10 @@ export const SpecificDate = (req: express.Request, res: express.Response, next: 
     const month: string = dateformat(date, "mm");
     const day: string = dateformat(date, "dd");
 
-    let EventList: Array<EventType> = getEvents(<string>env.AUTOLOGIN, year, month, day);
+    let EventList: Array<EventType> = [];
+    EventList.push({ semester: 3, module: "module", name: "event", registered: true });
+    EventList.push({ semester: 1, module: "module2", name: "event2", registered: false });
+    EventList = getEvents(<string>env.AUTOLOGIN, year, month, day);
 
     EventList.forEach((event: EventType) => {
         console.log(`${event.semester} ${event.module} ${event.name} ${event.registered}`);
