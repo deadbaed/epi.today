@@ -115,14 +115,12 @@ async function getEvents(autologin: string, year: string, month: string, day: st
             IntraRequest.Error = <ErrorType>{};
             IntraRequest.Error.code = ErrorCode.Network;
             IntraRequest.Error.message = err;
-            console.log(`request() error ${err}`);
             return IntraRequest;
         }
 
         if (res.statusCode == 403) {
             IntraRequest.Error = <ErrorType>{};
             IntraRequest.Error.code = ErrorCode.HTTP403;
-            console.error("intra 403");
             return IntraRequest;
         }
 
@@ -130,13 +128,10 @@ async function getEvents(autologin: string, year: string, month: string, day: st
             IntraRequest.Error = <ErrorType>{};
             IntraRequest.Error.code = ErrorCode.HTTPGeneric;
             IntraRequest.Error.message = `Intra replied HTTP ${res.statusCode}: ${res.statusMessage}`
-            console.error(`http error code ${res.statusCode}: ${res.statusMessage}`);
             return IntraRequest;
         }
 
         if (res.statusCode == 200) {
-            console.log("intra 200");
-
             /* TODO: maybe use something else than JSON.stringify and JSON.parse:
              * they are blocking functions and data can be lost
              * more info here: https://medium.com/@pmzubar/why-json-parse-json-stringify-is-a-bad-practice-to-clone-an-object-in-javascript-b28ac5e36521
@@ -151,13 +146,11 @@ async function getEvents(autologin: string, year: string, month: string, day: st
                 IntraRequest.Error = <ErrorType>{};
                 IntraRequest.Error.code = ErrorCode.BadParsing;
                 IntraRequest.Error.message = err.message;
-                console.error(err.message);
                 return IntraRequest;
             }
 
             /* if there are no events */
             if (isJSONParsingEmpty(json_parsed) == true) {
-                console.log("no events");
                 return IntraRequest;
             }
 
@@ -165,7 +158,6 @@ async function getEvents(autologin: string, year: string, month: string, day: st
         }
     });
 
-    console.log("done");
     return IntraRequest;
 };
 
