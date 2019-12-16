@@ -80,7 +80,7 @@ function storeJSON(json: any, IntraRequest: IntraRequestType) {
             semester: event.semester,
             module: event.titlemodule,
             name: event.acti_title,
-            registered: (event.event_registered == "registered") ? true : false,
+            registered: (event.event_registered == "registered" || event.event_registered == "present") ? true : false,
             time: {
                 start: moment(event.start).format("HH:mm"),
                 end: moment(event.end).format("HH:mm")
