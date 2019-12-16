@@ -3,4 +3,8 @@ extends ../layout
 block content
   include ../navbar
   #main.container
-    p welcome
+    h2 Quick links
+    p A quick glance at your day
+    ul
+      li #[a(href="/today") Today]
+      li #[a(href="/tomorrow") Tomorrow]
