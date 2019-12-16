@@ -1,4 +1,4 @@
-import request from "request";
+import * as request from "request-promise";
 
 type EventType = {
     semester: number;
@@ -102,14 +102,14 @@ async function getEvents(autologin: string, year: string, month: string, day: st
     IntraRequest.EventList = [];
 
     const RequestURL = ConstructRequestURL(autologin, year, month, day);
-    const RequestOptions: request.CoreOptions = {
+    const RequestOptions: request.RequestPromiseOptions = {
         json: true,
         headers: {
             "User-Agent": "epi.today"
         }
     };
 
-    request(RequestURL, RequestOptions, (err, res, body) => {
+    let intraRequest = await request.get(RequestURL, RequestOptions, (err, res, body) => {
         if (err) {
             IntraRequest.Error = <ErrorType>{};
             IntraRequest.Error.code = ErrorCode.Network;

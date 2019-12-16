@@ -21,6 +21,7 @@
     "@types/node": "^12.12.14",
     "@types/pug": "^2.0.4",
     "@types/request": "^2.48.3",
+    "@types/request-promise": "^4.1.45",
     "nodemon": "^2.0.2",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.3"
@@ -31,7 +32,8 @@
     "moment": "^2.24.0",
     "morgan": "^1.9.1",
     "pug": "^2.0.4",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "request-promise": "^4.2.5"
   },
   "nodemonConfig": {
     "restartable": "rs",
