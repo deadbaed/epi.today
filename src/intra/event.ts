@@ -67,6 +67,27 @@ function isJSONParsingEmpty(json_parsed: any) : boolean {
     return true;
 };
 
+function parseJSON(json: any, IntraRequest: IntraRequestType) {
+    json.forEach((event: any) => {
+        console.log(`we are at ${event.semester} ${event.titlemodule} ${event.acti_title} ${event.event_registered} from ${event.start} to ${event.end} 'https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/'`);
+        IntraRequest.EventList.push({
+            semester: event.semester,
+            module: event.titlemodule,
+            name: event.acti_title,
+            registered: (event.event_registered == "registered") ? true : false,
+            time: {
+                start: event.start,
+                end: event.end
+            },
+            url: "https://intra.epitech.eu/module/" + event.scolaryear + "/" + event.codemodule + "/" + event.codeinstance + "/" + event.codeacti + "/",
+            studentsRegistered: "https://intra.epitech.eu/module/" + event.scolaryear + "/" + event.codemodule + "/" + event.codeinstance + "/" + event.codeacti + "/" + event.codeevent + "/registered/"
+        });
+    });
+    IntraRequest.EventList.forEach(event => {
+        console.log(`done ${event.semester} ${event.module} ${event.name} ${event.registered} from ${event.time.start} to ${event.time.end} ${event.url}`);
+    });
+}
+
 /**
  * Downloads list of events of a particular date
  * @param autologin user's intra autologin link
@@ -139,24 +160,7 @@ function getEvents(autologin: string, year: string, month: string, day: string) 
                 return IntraRequest;
             }
 
-            json_parsed.forEach((event: any) => {
-                console.log(`we are at ${event.semester} ${event.titlemodule} ${event.acti_title} ${event.event_registered} from ${event.start} to ${event.end} 'https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/'`);
-                IntraRequest.EventList.push({
-                    semester: event.semester,
-                    module: event.titlemodule,
-                    name: event.acti_title,
-                    registered: (event.event_registered == "registered") ? true : false,
-                    time: {
-                        start: event.start,
-                        end: event.end
-                    },
-                    url: "https://intra.epitech.eu/module/" + event.scolaryear + "/" + event.codemodule + "/" + event.codeinstance + "/" + event.codeacti + "/",
-                    studentsRegistered: "https://intra.epitech.eu/module/" + event.scolaryear + "/" + event.codemodule + "/" + event.codeinstance + "/" + event.codeacti + "/" + event.codeevent + "/registered/"
-                });
-            });
-            IntraRequest.EventList.forEach(event => {
-                console.log(`done ${event.semester} ${event.module} ${event.name} ${event.registered} from ${event.time.start} to ${event.time.end} ${event.url}`);
-            });
+            parseJSON(json_parsed, IntraRequest);
         }
     });
 
