@@ -96,7 +96,7 @@ function parseJSON(json: any, IntraRequest: IntraRequestType) {
  * @param day day of events
  * @returns Array of matching events (empty array if there are no events) or an error
  */
-function getEvents(autologin: string, year: string, month: string, day: string) : IntraRequestType {
+async function getEvents(autologin: string, year: string, month: string, day: string) : Promise<IntraRequestType> {
     /* declare an empty IntraRequestType with a empty EventList */
     let IntraRequest: IntraRequestType = <IntraRequestType>{};
     IntraRequest.EventList = [];

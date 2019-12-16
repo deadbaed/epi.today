@@ -24,7 +24,7 @@ export const Tomorrow = (req: express.Request, res: express.Response, next: expr
 /**
  * Renders calendar page with specific date (in format YYYYMMDD)
  */
-export const SpecificDate = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+export const SpecificDate = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const date = moment(req.params.year + "-" + req.params.month + "-" + req.params.day);
 
     if (date.isValid() == false) {
@@ -39,7 +39,7 @@ export const SpecificDate = (req: express.Request, res: express.Response, next: 
     const month: string = moment(date).format("MM");
     const day: string = moment(date).format("DD");
 
-    let IntraRequest: IntraRequestType = getEvents(<string>env.AUTOLOGIN, year, month, day);
+    let IntraRequest: IntraRequestType = await getEvents(<string>env.AUTOLOGIN, year, month, day);
 
     if (IntraRequest.Error?.code == ErrorCode.Network) {
         return res.status(500).render("errors/500", {
@@ -63,6 +63,7 @@ export const SpecificDate = (req: express.Request, res: express.Response, next: 
         });
     }
 
+    console.log("adding dummy data");
     IntraRequest.EventList.push({ semester: 3, module: "module", name: "event", registered: true, time: { start: "09:00:00", end: "21:30:00" }, url: "http://x", studentsRegistered: "http://x" });
     IntraRequest.EventList.push({ semester: 1, module: "module2", name: "event2", registered: false, time: { start: "09:00:00", end: "21:30:00" }, url: "http://x", studentsRegistered: "http://x" });
 
