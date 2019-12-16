@@ -63,15 +63,6 @@ export const SpecificDate = async (req: express.Request, res: express.Response, 
         });
     }
 
-    console.log("adding dummy data");
-    IntraRequest.EventList.push({ semester: 3, module: "module", name: "event", registered: true, time: { start: "09:00:00", end: "21:30:00" }, url: "http://x", studentsRegistered: "http://x" });
-    IntraRequest.EventList.push({ semester: 1, module: "module2", name: "event2", registered: false, time: { start: "09:00:00", end: "21:30:00" }, url: "http://x", studentsRegistered: "http://x" });
-
-    IntraRequest.EventList.forEach((event: EventType) => {
-        console.log(`${event.semester} ${event.module} ${event.name} ${event.registered} from ${event.time.start} to ${event.time.end} ${event.url}`);
-    });
-
-    console.log("rendering page");
     return res.render("pages/date", {
         date: moment(date).format("dddd, MMMM Do"),
         events: IntraRequest.EventList
