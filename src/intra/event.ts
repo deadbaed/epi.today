@@ -1,4 +1,5 @@
 import * as request from "request-promise";
+import moment from "moment";
 
 type EventType = {
     semester: number;
@@ -80,8 +81,8 @@ function storeJSON(json: any, IntraRequest: IntraRequestType) {
             name: event.acti_title,
             registered: (event.event_registered == "registered") ? true : false,
             time: {
-                start: event.start,
-                end: event.end
+                start: moment(event.start).format("HH:mm"),
+                end: moment(event.end).format("HH:mm")
             },
             url: `https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/`,
             studentsRegistered: `https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/${event.codeevent}/registered/`
@@ -143,6 +144,7 @@ async function getEvents(autologin: string, year: string, month: string, day: st
                 json_parsed = JSON.parse(json_string);
                 // json_parsed = JSON.parse("{\"abd:\"jane}"); // used to simulate a bad json string
             } catch (err) {
+                /* give parsing error */
                 IntraRequest.Error = <ErrorType>{};
                 IntraRequest.Error.code = ErrorCode.BadParsing;
                 IntraRequest.Error.message = err.message;
