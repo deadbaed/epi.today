@@ -43,7 +43,8 @@ function ConstructRequestURL(autologin: string, year: string, month: string, day
     let RequestURL: string;
 
     RequestURL  = "https://intra.epitech.eu/" + autologin;
-    // RequestURL  = "https://localhost/" + autologin;
+    // RequestURL  = "https://intra.epitech.eu/"; //TODO: handle 403 errors
+    // RequestURL  = "https://localhost/" + autologin; //TODO: handle network errors
     RequestURL += "/planning/load?format=json";
     RequestURL += "&start=" + year + "-" + month + "-" + day;
     RequestURL += "&end=" + year + "-" + month + "-" + day;
