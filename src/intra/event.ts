@@ -79,8 +79,8 @@ function parseJSON(json: any, IntraRequest: IntraRequestType) {
                 start: event.start,
                 end: event.end
             },
-            url: "https://intra.epitech.eu/module/" + event.scolaryear + "/" + event.codemodule + "/" + event.codeinstance + "/" + event.codeacti + "/",
-            studentsRegistered: "https://intra.epitech.eu/module/" + event.scolaryear + "/" + event.codemodule + "/" + event.codeinstance + "/" + event.codeacti + "/" + event.codeevent + "/registered/"
+            url: `https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/`,
+            studentsRegistered: `https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/${event.codeevent}/registered/`
         });
     });
     IntraRequest.EventList.forEach(event => {
