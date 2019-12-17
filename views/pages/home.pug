@@ -3,16 +3,25 @@ extends ../layout
 block content
   include ../navbar
   #main.container
-    .card
+    h1 epi.today
+
+    div.card.mx-auto(style={width: "20em"})
       .card-body
-        h2.card-title #{student.name.first} #{student.name.last} #[span.badge.badge-secondary tek#{student.year}]
-        p.card-text #[a(href="mailto:" + student.email) #{student.email}]
+        h3.card-title #{student.name}
+        h4.card-subtitle.mb-2.text-muted #[span.badge.badge-primary tek#{student.year}]
         p.card-text GPA: #[b #{student.gpa}]
         p.card-text Credits acquired: #[b #{student.credits}]
         p.card-text Log time: #[b #{student.log} hours]
 
+    //- p #[b #{student.name}] #[span.badge.badge-secondary tek#{student.year}]
+    //- p GPA: #[b #{student.gpa}]
+    //- p Credits acquired: #[b #{student.credits}]
+    //- p Log time: #[b #{student.log} hours]
+
+    hr
+
     h2 Quick links
-    p A quick glance at your day
+    p A quick glance at a day
     ul
       li #[a(href="/today") Today]
       li #[a(href="/tomorrow") Tomorrow]
