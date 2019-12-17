@@ -4,6 +4,6 @@ import * as root from "./root";
 
 const router = express.Router();
 
-router.get("/", root.get);
+router.get("/", root.Home);
 
 export default router;
