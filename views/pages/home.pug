@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+  include ../navbar
+  #main.container
+    .card
+      .card-body
+        h2.card-title #{student.name.first} #{student.name.last} #[span.badge.badge-secondary tek#{student.year}]
+        p.card-text #[a(href="mailto:" + student.email) #{student.email}]
+        p.card-text GPA: #[b #{student.gpa}]
+        p.card-text Credits acquired: #[b #{student.credits}]
+        p.card-text Log time: #[b #{student.log} hours]
+
+    h2 Quick links
+    p A quick glance at your day
+    ul
+      li #[a(href="/today") Today]
+      li #[a(href="/tomorrow") Tomorrow]
