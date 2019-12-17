@@ -43,8 +43,8 @@ function ConstructRequestURL(autologin: string, year: string, month: string, day
     let RequestURL: string;
 
     RequestURL  = "https://intra.epitech.eu/" + autologin;
-    // RequestURL  = "https://intra.epitech.eu/"; //TODO: handle 403 errors
-    // RequestURL  = "https://localhost/" + autologin; //TODO: handle network errors
+    // RequestURL  = "https://intra.epitech.eu/"; /* 403 error */
+    // RequestURL  = "http://localhost:123/"; /* unreachable */
     RequestURL += "/planning/load?format=json";
     RequestURL += "&start=" + year + "-" + month + "-" + day;
     RequestURL += "&end=" + year + "-" + month + "-" + day;
@@ -133,9 +133,9 @@ async function getEvents(autologin: string, year: string, month: string, day: st
 
                 try {
                     json_parsed = JSON.parse(json_string);
-                    // json_parsed = JSON.parse("{\"abd:\"jane}"); // used to simulate a bad json string
+                    // json_parsed = JSON.parse("{\"abd:\"jane}"); /* used to simulate a bad json string */
                 } catch (err) {
-                    /* give parsing error */
+                    /* store parsing error */
                     IntraRequest.Error = <ErrorType>{};
                     IntraRequest.Error.code = ErrorCode.BadParsing;
                     IntraRequest.Error.message = err.message;
