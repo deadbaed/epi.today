@@ -5,3 +5,7 @@ block content
   #main.container
     h1 403 permission denied
     p You are not allowed to access this page.
+
+    if technical_error
+      h2 Technical error
+      code #{technical_error}

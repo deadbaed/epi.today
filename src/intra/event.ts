@@ -112,54 +112,55 @@ async function getEvents(autologin: string, year: string, month: string, day: st
         }
     };
 
-    await request.get(RequestURL, RequestOptions, (err, res, body) => {
-        if (err) {
-            IntraRequest.Error = <ErrorType>{};
-            IntraRequest.Error.code = ErrorCode.Network;
-            IntraRequest.Error.message = err;
-            return IntraRequest;
-        }
+    try {
+        await request.get(RequestURL, RequestOptions, (err, res, body) => {
 
-        if (res.statusCode == 403) {
-            IntraRequest.Error = <ErrorType>{};
-            IntraRequest.Error.code = ErrorCode.HTTP403;
-            return IntraRequest;
-        }
-
-        if (res.statusCode != 200) {
-            IntraRequest.Error = <ErrorType>{};
-            IntraRequest.Error.code = ErrorCode.HTTPGeneric;
-            IntraRequest.Error.message = `Intra replied HTTP ${res.statusCode}: ${res.statusMessage}`
-            return IntraRequest;
-        }
-
-        if (res.statusCode == 200) {
-            /* TODO: maybe use something else than JSON.stringify and JSON.parse:
-             * they are blocking functions and data can be lost
-             * more info here: https://medium.com/@pmzubar/why-json-parse-json-stringify-is-a-bad-practice-to-clone-an-object-in-javascript-b28ac5e36521
-             */
-            const json_string = JSON.stringify(body);
-            let json_parsed;
-
-            try {
-                json_parsed = JSON.parse(json_string);
-                // json_parsed = JSON.parse("{\"abd:\"jane}"); // used to simulate a bad json string
-            } catch (err) {
-                /* give parsing error */
+            /* network errors */
+            if (err) {
                 IntraRequest.Error = <ErrorType>{};
-                IntraRequest.Error.code = ErrorCode.BadParsing;
-                IntraRequest.Error.message = err.message;
+                IntraRequest.Error.code = ErrorCode.Network;
+                IntraRequest.Error.message = err;
                 return IntraRequest;
             }
 
-            /* if there are no events */
-            if (isJSONParsingEmpty(json_parsed) == true) {
-                return IntraRequest;
-            }
+            if (res.statusCode == 200) {
+                /* TODO: maybe use something else than JSON.stringify and JSON.parse:
+                 * they are blocking functions and data can be lost
+                 * more info here: https://medium.com/@pmzubar/why-json-parse-json-stringify-is-a-bad-practice-to-clone-an-object-in-javascript-b28ac5e36521
+                 */
+                const json_string = JSON.stringify(body);
+                let json_parsed;
 
-            storeJSON(json_parsed, IntraRequest);
+                try {
+                    json_parsed = JSON.parse(json_string);
+                    // json_parsed = JSON.parse("{\"abd:\"jane}"); // used to simulate a bad json string
+                } catch (err) {
+                    /* give parsing error */
+                    IntraRequest.Error = <ErrorType>{};
+                    IntraRequest.Error.code = ErrorCode.BadParsing;
+                    IntraRequest.Error.message = err.message;
+                    return IntraRequest;
+                }
+
+                /* if there are no events */
+                if (isJSONParsingEmpty(json_parsed) == true) {
+                    return IntraRequest;
+                }
+
+                storeJSON(json_parsed, IntraRequest);
+            }
+        });
+    } catch (err) {
+        /* catch HTTP errors */
+        IntraRequest.Error = <ErrorType>{};
+        if (err.statusCode == 403) {
+            IntraRequest.Error.code = ErrorCode.HTTP403;
+        } else {
+            IntraRequest.Error.code = ErrorCode.HTTPGeneric;
         }
-    });
+        IntraRequest.Error.message = err;
+        return IntraRequest;
+    }
 
     return IntraRequest;
 };

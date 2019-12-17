@@ -48,7 +48,9 @@ export const SpecificDate = async (req: express.Request, res: express.Response, 
     }
 
     if (IntraRequest.Error?.code == ErrorCode.HTTP403) {
-        return res.status(403).render("errors/403");
+        return res.status(403).render("errors/403", {
+            technical_error: IntraRequest.Error.message
+        });
     }
 
     if (IntraRequest.Error?.code == ErrorCode.HTTPGeneric) {
