@@ -78,7 +78,7 @@ function isJSONParsingEmpty(json_parsed: any) : boolean {
  */
 function storeJSON(json: any, IntraRequest: IntraRequestType, Student: StudentType) {
     json.forEach((event: any) => {
-        if (Student.semester == event.semester) {
+        if (event.semester == Student.semester || event.semester == 0) {
             IntraRequest.EventList.push({
                 semester: event.semester,
                 module: event.titlemodule,
