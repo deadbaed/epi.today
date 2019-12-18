@@ -6,6 +6,7 @@ type StudentType = {
     credits: number;
     gpa: string;
     log: number;
+    semester: number;
 };
 
 async function getStudent(autologin: string) : Promise<StudentType> {
@@ -41,7 +42,8 @@ async function getStudent(autologin: string) : Promise<StudentType> {
                 year: json_parsed.studentyear,
                 credits: json_parsed.credits,
                 gpa: json_parsed.gpa[0].gpa,
-                log: json_parsed.nsstat.active
+                log: json_parsed.nsstat.active,
+                semester: json_parsed.semester
             };
         }
     });

@@ -1,5 +1,6 @@
 import * as request from "request-promise";
 import moment from "moment";
+import { StudentType, getStudent } from "../intra/student";
 
 type EventType = {
     semester: number;
@@ -73,21 +74,24 @@ function isJSONParsingEmpty(json_parsed: any) : boolean {
  * Stores JSON in EventList
  * @param json raw json
  * @param IntraRequest
+ * @param Student
  */
-function storeJSON(json: any, IntraRequest: IntraRequestType) {
+function storeJSON(json: any, IntraRequest: IntraRequestType, Student: StudentType) {
     json.forEach((event: any) => {
-        IntraRequest.EventList.push({
-            semester: event.semester,
-            module: event.titlemodule,
-            name: event.acti_title,
-            registered: (event.event_registered == "registered" || event.event_registered == "present") ? true : false,
-            time: {
-                start: moment(event.start).format("HH:mm"),
-                end: moment(event.end).format("HH:mm")
-            },
-            url: `https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/`,
-            studentsRegistered: `https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/${event.codeevent}/registered/`
-        });
+        if (Student.semester == event.semester) {
+            IntraRequest.EventList.push({
+                semester: event.semester,
+                module: event.titlemodule,
+                name: event.acti_title,
+                registered: (event.event_registered == "registered" || event.event_registered == "present") ? true : false,
+                time: {
+                    start: moment(event.start).format("HH:mm"),
+                    end: moment(event.end).format("HH:mm")
+                },
+                url: `https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/`,
+                studentsRegistered: `https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/${event.codeevent}/registered/`
+            });
+        }
     });
 }
 
@@ -100,6 +104,7 @@ function storeJSON(json: any, IntraRequest: IntraRequestType) {
  * @returns Array of matching events (empty array if there are no events) or an error
  */
 async function getEvents(autologin: string, year: string, month: string, day: string) : Promise<IntraRequestType> {
+    const Student: StudentType = await getStudent(autologin);
     /* declare an empty IntraRequestType with a empty EventList */
     let IntraRequest: IntraRequestType = <IntraRequestType>{};
     IntraRequest.EventList = [];
@@ -147,7 +152,7 @@ async function getEvents(autologin: string, year: string, month: string, day: st
                     return IntraRequest;
                 }
 
-                storeJSON(json_parsed, IntraRequest);
+                storeJSON(json_parsed, IntraRequest, Student);
             }
         });
     } catch (err) {
