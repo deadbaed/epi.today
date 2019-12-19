@@ -89,7 +89,7 @@ function storeJSON(json: any, IntraRequest: IntraRequestType, Student: StudentTy
                     end: moment(event.end).format("HH:mm")
                 },
                 url: `https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/`,
-                studentsRegistered: (event.is_rdv == "1") ? `https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/rdv/` : `https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/${event.codeevent}/registered/`,
+                studentsRegistered: (event.is_rdv == "1") ? `https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/rdv/` : `https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/${event.codeevent}/registered`,
             });
         }
     });
