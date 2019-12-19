@@ -26,15 +26,20 @@ export const Tomorrow = (req: express.Request, res: express.Response, next: expr
  */
 export const SpecificDate = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const date = moment(req.params.year + "-" + req.params.month + "-" + req.params.day);
+    // TODO: maybe handle february 28/29/30/31 ? (on feb 31 it returns march 3)
+    // TODO: handle 1 digit months and days and redirect to correct format
 
     if (date.isValid() == false) {
         return res.status(400).render("errors/400", {
             reason: "You asked for a date that does not exist"
         });
     }
-    // TODO: maybe handle february 28/29/30/31 ? (on feb 31 it returns march 3)
-    // TODO: handle 1 digit months and days and redirect to correct format
 
+    /* calculate the day before and after */
+    const yesterday = moment(date).subtract(1, "days");
+    const tomorrow = moment(date).add(1, "days");
+
+    /* store the requested date in correct format */
     const year: string = moment(date).format("YYYY");
     const month: string = moment(date).format("MM");
     const day: string = moment(date).format("DD");
@@ -60,6 +65,10 @@ export const SpecificDate = async (req: express.Request, res: express.Response, 
 
     return res.render("pages/date", {
         date: moment(date).format("dddd, MMMM Do"),
-        events: IntraRequest.EventList
+        events: IntraRequest.EventList,
+        yesterday: moment(yesterday).format("dddd"),
+        yesterdayLink: moment(yesterday).format("/YYYY/MM/DD"),
+        tomorrow: moment(tomorrow).format("dddd"),
+        tomorrowLink: moment(tomorrow).format("/YYYY/MM/DD")
     });
 };

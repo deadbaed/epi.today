@@ -4,9 +4,16 @@ block content
   include ../navbar
   #main.container
     h1.text-center #{date}
+
+    ul.pagination.justify-content-center
+      li.page-item.date-button
+        a.custom-shadow.btn.btn-outline-primary.btn-lg(role="button" href=yesterdayLink aria-pressed="true") &laquo; #{yesterday}
+      li.page-item.date-button
+        a.custom-shadow.btn.btn-outline-primary.btn-lg(role="button" href=tomorrowLink aria-pressed="true") #{tomorrow} &raquo;
+
     if events != 0
       for event in events
-        .card
+        .custom-shadow.card
           .card-body
             if event.registered == true
               h5.card-title #{event.name} #[a(href=event.studentsRegistered).badge.badge-success Registered]
