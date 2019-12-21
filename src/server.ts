@@ -13,10 +13,12 @@ server.use(express.json());
 // import routes
 import rootRoutes from "./root/routes";
 import dateRoutes from "./date/routes";
+import authRoutes from "./auth/routes";
 
 // use routes
 server.use("/", rootRoutes);
 server.use("/", dateRoutes);
+server.use("/auth", authRoutes);
 
 // if /uptime works server is ok
 server.get("/uptime", (req: express.Request, res: express.Response) => {
