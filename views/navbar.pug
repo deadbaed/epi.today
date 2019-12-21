@@ -1,5 +1,11 @@
-nav.navbar.navbar-expand-lg.navbar-light.bg-light
+nav.navbar.navbar-expand-sm.navbar-light.bg-light
   a.navbar-brand.mb-0.h1(href="/") epi.today
-  a.nav-link(href="/today") Today
-  a.nav-link(href="/tomorrow") Tomorrow
+  button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toogle menu")
+    span.navbar-toggler-icon
 
+  #navbarNav.collapse.navbar-collapse
+    ul.navbar-nav.mr-auto
+      li.nav-item
+        a.nav-link(href="/today") Today
+      li.nav-item
+        a.nav-link(href="/tomorrow") Tomorrow
