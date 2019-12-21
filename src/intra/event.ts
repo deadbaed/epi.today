@@ -2,6 +2,7 @@ import * as request from "request-promise";
 import moment from "moment";
 import { StudentType, getStudent } from "../intra/student";
 
+/* where the events will be stored */
 type EventType = {
     semester: number;
     module: string;
@@ -15,6 +16,7 @@ type EventType = {
     studentsRegistered: string;
 };
 
+/* codes of possible errors */
 enum ErrorCode {
     Network,
     HTTP403,
@@ -22,11 +24,13 @@ enum ErrorCode {
     BadParsing
 }
 
+/* where the eventual error will be stored */
 type ErrorType = {
     code: ErrorCode;
     message?: String;
 };
 
+/* where the output of getEvents() will be stored */
 type IntraRequestType = {
     EventList: Array<EventType>;
     Error?: ErrorType;
@@ -46,6 +50,7 @@ function ConstructRequestURL(autologin: string, year: string, month: string, day
     RequestURL  = "https://intra.epitech.eu/" + autologin;
     // RequestURL  = "https://intra.epitech.eu/"; /* 403 error */
     // RequestURL  = "http://localhost:123/"; /* unreachable */
+
     RequestURL += "/planning/load?format=json";
     RequestURL += "&start=" + year + "-" + month + "-" + day;
     RequestURL += "&end=" + year + "-" + month + "-" + day;
