@@ -5,23 +5,21 @@ block content
   #main.container
     h1 epi.today
 
-    .card.custom-shadow.mx-auto(style={width: "20em"})
+    .card.mx-auto(style={width: "20em"})
       .card-body
         h3.card-title #{student.name}
-        h4.card-subtitle.mb-2.text-muted #[span.badge.badge-primary tek#{student.year}]
+        h4.card-subtitle.mb-2.text-muted
+          span.badge.badge-primary tek#{student.year}
         p.card-text GPA: #[b #{student.gpa}]
         p.card-text Credits acquired: #[b #{student.credits}]
         p.card-text Log time: #[b #{student.log} hours]
-
-    //- p #[b #{student.name}] #[span.badge.badge-secondary tek#{student.year}]
-    //- p GPA: #[b #{student.gpa}]
-    //- p Credits acquired: #[b #{student.credits}]
-    //- p Log time: #[b #{student.log} hours]
 
     hr
 
     h2 Quick links
     p A quick glance at a day
-    ul
-      li #[a(href="/today") Today]
-      li #[a(href="/tomorrow") Tomorrow]
+    ul.pagination
+      li.page-item.date-button
+        a.custom-shadow.btn.btn-outline-primary.btn-lg(role="button" href="/today" aria-pressed="true") Today
+      li.page-item.date-button
+        a.custom-shadow.btn.btn-outline-primary.btn-lg(role="button" href="/tomorrow" aria-pressed="true") Tomorrow
