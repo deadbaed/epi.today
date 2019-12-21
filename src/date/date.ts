@@ -25,10 +25,10 @@ export const Tomorrow = (req: express.Request, res: express.Response, next: expr
  * Renders calendar page with specific date (in format YYYYMMDD)
  */
 export const SpecificDate = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const date = moment(req.params.year + "-" + req.params.month + "-" + req.params.day);
-    // TODO: maybe handle february 28/29/30/31 ? (on feb 31 it returns march 3)
-    // TODO: handle 1 digit months and days and redirect to correct format
+    /* parse date, make sure the final format is YYYY-MM-DD */
+    const date = moment(req.params.year + "-" + req.params.month + "-" + req.params.day, "YYYY-MM-DD", true);
 
+    /* if date is invalid or format is not respected */
     if (date.isValid() == false) {
         return res.status(400).render("errors/400", {
             reason: "You asked for a date that does not exist"
