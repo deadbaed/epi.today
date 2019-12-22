@@ -1,7 +1,18 @@
 import express from "express";
 import morgan from "morgan";
+import cookieSession from "cookie-session";
+import passport from "passport";
+require("./authentication");
 
 const server = express();
+
+server.use(cookieSession({
+    maxAge: 7 * 24 * 60 * 60 * 1000, /* one week in milliseconds */
+    keys: ["randomstringhere, import from .env"]
+}));
+
+server.use(passport.initialize()); /* initialize passport */
+server.use(passport.session()); /* make login sessions persist */
 
 server.use(express.static("./public"));
 server.set("views", "./views");
