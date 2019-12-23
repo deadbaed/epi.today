@@ -5,14 +5,12 @@ block content
   #main.container
     h1 epi.today
 
-    .card.mx-auto(style={width: "20em"})
-      .card-body
-        h3.card-title #{student.name}
-        h4.card-subtitle.mb-2.text-muted
-          span.badge.badge-primary tek#{student.year}
-        p.card-text GPA: #[b #{student.gpa}]
-        p.card-text Credits acquired: #[b #{student.credits}]
-        p.card-text Log time: #[b #{student.log} hours]
+    h3 #{student.name}
+    h4
+      span.badge.badge-primary tek#{student.year}
+    p GPA: #[b #{student.gpa}]
+    p Credits acquired: #[b #{student.credits}]
+    p Log time: #[b #{student.log} hours]
 
     hr
 
