@@ -2,13 +2,14 @@ import express from "express";
 import morgan from "morgan";
 import cookieSession from "cookie-session";
 import passport from "passport";
+import env from "./env";
 require("./authentication");
 
 const server = express();
 
 server.use(cookieSession({
     maxAge: 7 * 24 * 60 * 60 * 1000, /* one week in milliseconds */
-    keys: ["randomstringhere, import from .env"]
+    keys: [<string>env.COOKIE_SESSION]
 }));
 
 server.use(passport.initialize()); /* initialize passport */
