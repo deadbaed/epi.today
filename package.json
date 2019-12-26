@@ -55,7 +55,8 @@
       "node_modules"
     ],
     "watch": [
-      "src/"
+      "src/",
+      ".env"
     ],
     "ext": "ts,js,json"
   }
