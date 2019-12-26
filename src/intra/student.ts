@@ -1,6 +1,7 @@
 import * as request from "request-promise";
 
 type StudentType = {
+    name: string;
     email: string;
     year: number;
     credits: number;
@@ -38,6 +39,7 @@ async function getStudent(autologin: string) : Promise<StudentType> {
             }
 
             Student = {
+                name: json_parsed.firstname + " " + json_parsed.lastname,
                 email: json_parsed.internal_email,
                 year: json_parsed.studentyear,
                 credits: json_parsed.credits,

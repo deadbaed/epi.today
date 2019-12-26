@@ -5,7 +5,7 @@ block content
   #main.container
     h1 epi.today
 
-    h4 #{student.email}
+    h4 #{student.name}
     h4
       span.badge.badge-primary tek#{student.year}
     p GPA: #[b #{student.gpa}]
@@ -27,3 +27,9 @@ block content
     h2 Date selector
     p Plan your day ahead
     p (coming soon)
+
+    hr
+
+    h2 Account
+    p You are logged in as #[b #{student.email}]
+    a.custom-shadow.btn.btn-outline-danger.btn-lg(role="button" href="/auth/logout" aria-pressed="true") Log out
