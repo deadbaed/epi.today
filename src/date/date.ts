@@ -4,6 +4,13 @@ import env from "../env";
 import { IntraRequestType, EventType, ErrorCode, getEvents } from "../intra/event";
 
 /**
+ * Renders page with a date selector which will redirect to requested date
+ */
+export const DateSelector = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    return res.render("pages/selector");
+};
+
+/**
  * Redirects to calendar page with today's date
  */
 export const Today = (req: express.Request, res: express.Response, next: express.NextFunction) => {
