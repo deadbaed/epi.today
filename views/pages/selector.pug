@@ -10,33 +10,9 @@ block content
 
     div#selectorContainer
       input#selector
-
     a.custom-shadow.btn.btn-outline-primary.btn-lg.disabled#selectorLink(role="button" aria-pressed="true") See events
 
 block javascript
   link(rel="stylesheet" href="https://unpkg.com/@chenfengyuan/datepicker@1.0.9/dist/datepicker.min.css")
   script(src="https://unpkg.com/@chenfengyuan/datepicker@1.0.9/dist/datepicker.min.js")
-
-  script.
-    "use strict";
-
-    var options = {
-      language: "en-US",
-      inline: true,
-      container: $("#selectorContainer"),
-      format: "yyyy/mm/dd",
-      weekStart: 1, // weeks start on monday
-      startView: 0, // display days by default
-      startDate: new Date(),
-    };
-
-    $(document).ready(function() {
-      $("#selector").datepicker(options);
-    });
-
-    $("#selector").on("pick.datepicker", function() {
-      var dateLink = $("#selector").datepicker("getDate", true);
-
-      $("#selectorLink").removeClass("disabled");
-      $("#selectorLink").attr("href", "/" + dateLink);
-    });
+  script(src="/selector.js")
