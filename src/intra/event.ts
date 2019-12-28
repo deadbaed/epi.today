@@ -1,5 +1,6 @@
 import * as request from "request-promise";
 import moment from "moment";
+import isJSONParsingEmpty from "../tools/isJSONParsingEmpty";
 
 /* where the events will be stored */
 type EventType = {
@@ -56,23 +57,6 @@ function ConstructRequestURL(autologin: string, year: string, month: string, day
     RequestURL += "&end=" + year + "-" + month + "-" + day;
 
     return RequestURL;
-};
-
-/**
- * Function checking if a parsed JSON Object is empty or not
- * Warning: Dirty function that I didn't write, stole it here:
- * https://coderwall.com/p/_g3x9q/how-to-check-if-javascript-object-is-empty
- * @param json_parsed parsed JSON
- * @returns whether if Object is empty or not
- */
-function isJSONParsingEmpty(json_parsed: any) : boolean {
-    for (var key in json_parsed) {
-        if (json_parsed.hasOwnProperty(key)) {
-            /* object is not empty if a key has its own property */
-            return false;
-        }
-    }
-    return true;
 };
 
 /**

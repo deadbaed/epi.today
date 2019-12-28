@@ -1,4 +1,5 @@
 import * as request from "request-promise";
+import isJSONParsingEmpty from "../tools/isJSONParsingEmpty";
 
 type StudentType = {
     name: string;
@@ -44,7 +45,7 @@ async function getStudent(autologin: string) : Promise<StudentType> {
                 year: json_parsed.studentyear,
                 credits: json_parsed.credits,
                 gpa: json_parsed.gpa[0].gpa,
-                log: json_parsed.nsstat.active,
+                log: (isJSONParsingEmpty(json_parsed.nsstat) == true) ? 0 : json_parsed.nsstat.active,
                 semester: json_parsed.semester
             };
         }
