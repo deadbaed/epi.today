@@ -20,7 +20,11 @@ block content
             else
               h5.card-title #{event.name} #[a(href=event.studentsRegistered).badge.badge-danger Not registered]
             h6.card-subtitle.mb-2.text-muted #{event.module}
-            p.card-text #[b #{event.time.start}] - #[b #{event.time.end}]
+            p.card-text
+              if event.teacher
+                span.text-info #{event.teacher}
+                br
+              | #[b #{event.time.start}] - #[b #{event.time.end}]
             a.card-link.btn.btn-outline-primary(href=event.url) See event on intra
     else
       .card

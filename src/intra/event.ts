@@ -8,6 +8,7 @@ type EventType = {
     module: string;
     name: string;
     registered: boolean;
+    teacher: string;
     time: {
         start: string;
         end: string;
@@ -89,6 +90,7 @@ function storeJSON(json: any, IntraRequest: IntraRequestType, Student: StudentTy
                 module: event.titlemodule,
                 name: event.acti_title,
                 registered: (event.event_registered == "registered" || event.event_registered == "present") ? true : false,
+                teacher: event.title,
                 time: {
                     start: moment(event.start).format("HH:mm"),
                     end: moment(event.end).format("HH:mm")
