@@ -1,13 +1,18 @@
 import express from "express";
 import moment from "moment";
 import env from "../env";
-import { IntraRequestType, EventType, ErrorCode, getEvents } from "../intra/event";
+import { IntraRequestType, ErrorCode, getEvents } from "../intra/event";
+import { StudentType, getStudent } from "../intra/student";
 
 /**
  * Renders page with a date selector which will redirect to requested date
  */
-export const DateSelector = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    return res.render("pages/selector");
+export const DateSelector = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    let Student: StudentType = await getStudent(<string>env.AUTOLOGIN);
+
+    return res.render("pages/selector", {
+        student: Student
+    });
 };
 
 /**
@@ -51,7 +56,8 @@ export const SpecificDate = async (req: express.Request, res: express.Response, 
     const month: string = moment(date).format("MM");
     const day: string = moment(date).format("DD");
 
-    let IntraRequest: IntraRequestType = await getEvents(<string>env.AUTOLOGIN, year, month, day);
+    let Student: StudentType = await getStudent(<string>env.AUTOLOGIN);
+    let IntraRequest: IntraRequestType = await getEvents(<string>env.AUTOLOGIN, year, month, day, Student.semester);
 
     if (IntraRequest.Error) {
         if (IntraRequest.Error.code == ErrorCode.HTTP403) {
@@ -76,6 +82,7 @@ export const SpecificDate = async (req: express.Request, res: express.Response, 
         yesterday: moment(yesterday).format("dddd"),
         yesterdayLink: moment(yesterday).format("/YYYY/MM/DD"),
         tomorrow: moment(tomorrow).format("dddd"),
-        tomorrowLink: moment(tomorrow).format("/YYYY/MM/DD")
+        tomorrowLink: moment(tomorrow).format("/YYYY/MM/DD"),
+        student: Student
     });
 };

@@ -1,6 +1,5 @@
 import * as request from "request-promise";
 import moment from "moment";
-import { StudentType, getStudent } from "../intra/student";
 
 /* where the events will be stored */
 type EventType = {
@@ -80,11 +79,11 @@ function isJSONParsingEmpty(json_parsed: any) : boolean {
  * Stores JSON in EventList
  * @param json raw json
  * @param IntraRequest
- * @param Student
+ * @param current_semester current semester of student
  */
-function storeJSON(json: any, IntraRequest: IntraRequestType, Student: StudentType) {
+function storeJSON(json: any, IntraRequest: IntraRequestType, current_semester: number) {
     json.forEach((event: any) => {
-        if (event.semester == Student.semester || event.semester == 0) {
+        if (event.semester == current_semester || event.semester == 0) {
             IntraRequest.EventList.push({
                 semester: event.semester,
                 module: event.titlemodule,
@@ -108,10 +107,10 @@ function storeJSON(json: any, IntraRequest: IntraRequestType, Student: StudentTy
  * @param year year of events
  * @param month  month of events
  * @param day day of events
+ * @param current_semester number of current semester of student
  * @returns Array of matching events (empty array if there are no events) or an error
  */
-async function getEvents(autologin: string, year: string, month: string, day: string) : Promise<IntraRequestType> {
-    const Student: StudentType = await getStudent(autologin);
+async function getEvents(autologin: string, year: string, month: string, day: string, current_semester: number) : Promise<IntraRequestType> {
     /* declare an empty IntraRequestType with a empty EventList */
     let IntraRequest: IntraRequestType = <IntraRequestType>{};
     IntraRequest.EventList = [];
@@ -159,7 +158,7 @@ async function getEvents(autologin: string, year: string, month: string, day: st
                     return IntraRequest;
                 }
 
-                storeJSON(json_parsed, IntraRequest, Student);
+                storeJSON(json_parsed, IntraRequest, current_semester);
             }
         });
     } catch (err) {
