@@ -27,5 +27,7 @@ footer {
 }
 
 .date-selector {
-    border: 1px dashed #eee;
+    border: 2px solid #007bff;
+    padding: 2px;
+    border-radius: .3rem;
 }
