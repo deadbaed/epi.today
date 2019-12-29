@@ -1,0 +1,17 @@
+extends ../layout
+
+block extra_head
+  meta(http-equiv="refresh", content="2; url=/")
+
+block content
+  include ../navbar-public
+  #main.container
+    h1 Hello world
+
+    p You are now logged in.
+    p Redirecting you to the home page...
+
+    div.d-flex.justify-content-center(style={"margin": "50px auto"})
+      .spinner-border(role="redirecting")
+        span.sr-only Redirecting...
+    p.text-muted If you are not redirected automatically please #[a(href="/") click here].

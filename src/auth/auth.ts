@@ -1,4 +1,5 @@
 import express from "express";
+import { resolveNaptr } from "dns";
 
 /**
  * Check if user is authenticated or not
@@ -19,12 +20,12 @@ export const isUserAuthenticated = (req: express.Request, res: express.Response,
  * Callback after successful authentication
  */
 export const Callback = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    res.send("callback from office365");
+    return res.render("auth/login");
 };
 
 /**
  * Logout of Office 365 account
  */
 export const Logout = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    res.send("logging out");
+    return res.render("auth/logout");
 };
