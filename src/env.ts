@@ -4,7 +4,6 @@ dotenv.config();
 
 export default {
     MODE: (process.env.MODE != "prod") ? "dev" : "prod",
-    HOST: process.env.HOST,
     PORT: process.env.PORT,
     AUTOLOGIN: process.env.AUTOLOGIN,
     CLIENT_ID: process.env.CLIENT_ID,
