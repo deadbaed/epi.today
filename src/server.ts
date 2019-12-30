@@ -19,7 +19,12 @@ server.use(express.static("./public"));
 server.set("views", "./views");
 server.set("view engine", "pug");
 
-server.use(morgan("dev"));
+if (env.MODE == "prod") {
+    server.use(morgan("common"));
+} else {
+    server.use(morgan("dev"));
+}
+
 server.use(express.json());
 
 // import routes
