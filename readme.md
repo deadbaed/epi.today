@@ -22,3 +22,7 @@ To start the application with pm2 at system startup, run `pm2 startup` to get mo
 You can find more information on pm2 in this [DigitalOcean tutorial](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-debian-9).
 
 Also, it's 2019 (almost 2020 as I'm writing this), so setup HTTPS. You can find information on how to do that with let's encrypt on this [DigitalOcean tutorial](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-debian-9).
+
+## environnement file
+
+This project requires the use of a `.env` file to store application settings. Please take a look at file [src/env.ts](src/env.ts) to see what is required inside the `.env` file.
