@@ -22,6 +22,7 @@ server.set("view engine", "pug");
 if (env.MODE == "prod") {
     server.use(morgan("common"));
 } else {
+    server.locals.pretty = true; /* don't minify html */
     server.use(morgan("dev"));
 }
 
