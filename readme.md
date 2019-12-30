@@ -4,11 +4,11 @@ what's on the calendar today at epitech?
 
 ## maintenance
 
-A maintenance page can be found on the repo (`maintenance.html`) which is a file to be rendered when the application is not available.
+A maintenance page can be found on the repo [maintenance.html](maintenance.html) which is a file to be rendered when the application is not available.
 
 ## nginx
 
-A nginx configuration file example can be found on the repo (`nginx.conf`), with a reverse proxy to the application and a maintenance page to `$document_root/epi.today.maintenance.html`. On most systems `$document_root` is located at `/usr/share/nginx/html/`.
+A nginx configuration file example can be found on the repo [nginx.conf](nginx.conf), with a reverse proxy to the application and a maintenance page to `$document_root/epi.today.maintenance.html`. On most systems `$document_root` is located at `/usr/share/nginx/html/`.
 
 To activate the maintenance mode, simply copy the maintenance file to `/usr/share/nginx/epi.today.maintenance.html`. Remove the file when you are done with the maintenance.
 
