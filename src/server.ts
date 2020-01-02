@@ -1,14 +1,18 @@
 import express from "express";
 import morgan from "morgan";
 import cookieSession from "cookie-session";
+import cookieParser from "cookie-parser";
 import passport from "passport";
 import env from "./env";
 require("./authentication");
 
 const server = express();
 
+server.use(cookieParser());
+
 server.use(cookieSession({
-    maxAge: 7 * 24 * 60 * 60 * 1000, /* one week in milliseconds */
+    name: "epi.today session",
+    maxAge: 31 * (24 * (60 * (60 * 1000))), /* 31 days in milliseconds */
     keys: [<string>env.COOKIE_SESSION]
 }));
 

@@ -7,7 +7,7 @@ import env from "../env";
  * Check if user is authenticated or not
  */
 export const isUserAuthenticated = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    if (req.user) {
+    if (req.cookies.autologin) {
         /* if user is logged in go to next function */
         next();
     } else {
@@ -31,7 +31,7 @@ export const Login = async (req: express.Request, res: express.Response, next: e
             technical_error: "Could not verify your autologin link due to intra error."
         });
     }
-    // TODO: store autologin in cookie
+    res.cookie("autologin", autologin);
     return res.redirect("/auth/callback");
 };
 
@@ -39,8 +39,7 @@ export const Login = async (req: express.Request, res: express.Response, next: e
  * Callback after successful authentication
  */
 export const Callback = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    // TODO: make intra request and send the email address to render
-    let Student: StudentType = await getStudent(<string>env.AUTOLOGIN);
+    let Student: StudentType = await getStudent(req.cookies.autologin);
 
     return res.render("auth/callback", {
         student: Student
@@ -51,5 +50,6 @@ export const Callback = async (req: express.Request, res: express.Response, next
  * Logout of Office 365 account
  */
 export const Logout = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    res.clearCookie("autologin");
     return res.render("auth/logout");
 };

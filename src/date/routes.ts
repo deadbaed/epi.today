@@ -5,10 +5,10 @@ import * as date from "./date";
 
 const router = express.Router();
 
-router.get("/:year/:month/:day", date.SpecificDate);
-router.get("/today", date.Today);
-router.get("/tomorrow", date.Tomorrow);
-router.get("/selector", date.DateSelector);
+router.get("/:year/:month/:day", isUserAuthenticated, date.SpecificDate);
+router.get("/today", isUserAuthenticated, date.Today);
+router.get("/tomorrow", isUserAuthenticated, date.Tomorrow);
+router.get("/selector", isUserAuthenticated, date.DateSelector);
 
 export default router;
 
