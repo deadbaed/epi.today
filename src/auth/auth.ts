@@ -31,7 +31,7 @@ export const Login = async (req: express.Request, res: express.Response, next: e
             technical_error: "Could not verify your autologin link due to intra error."
         });
     }
-    res.cookie("autologin", autologin);
+    res.cookie("autologin", autologin, { maxAge: 31 * (24 * (60 * (60 * 1000))) }); /* store cookie with autologin and maxAge is 31 days in milliseconds */
     return res.redirect("/auth/callback");
 };
 
