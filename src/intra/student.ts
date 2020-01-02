@@ -22,7 +22,9 @@ async function getStudent(autologin: string) : Promise<StudentType> {
         }
     };
 
+    // TODO: try and catch for request.get (see intra/auth.ts for example)
     await request.get(RequestURL, RequestOptions, (err, res, body) => {
+        // TODO: better error handling
 
         /* network errors */
         if (err) {

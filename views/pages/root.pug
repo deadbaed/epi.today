@@ -4,5 +4,29 @@ block content
   include ../navbar-public
   #main.container
     h1 epi.today
+    h2 Welcome
 
-    a.custom-shadow.btn.btn-outline-primary.btn-lg(role="button" href="/auth/office365" aria-pressed="true") Log in with #[b Office 365]
+    .alert.alert-warning.alert-dismissible.fade.show(role="alert") Please note that access to this website is restrained to #[b Epitech students].
+      button(type="button" class="close" data-dismiss="alert" aria-label="Close")
+        span(aria-hidden="true") &times;
+
+    p Welcome to epi.today! #[i insert blah-blah about the website here]
+
+    h2 Log in
+
+    p In order to log in, #[b click] on the button below to get your autologin link.
+
+    a.custom-shadow.btn.btn-outline-primary.btn-lg(style={"margin-top": "0"} role="button" href="https://intra.epitech.eu/admin/autolog" aria-pressed="true") Get autologin link
+
+    p #[b Copy] and #[b paste] it in the form below:
+
+    //- TODO: add noscript tag to indicate that javascript is required because validation is done on the client
+    form.needs-validation#inputForm(action="/auth/login" method="post" enctype="application/x-www-form-urlencoded" novalidate)
+      .form-group
+        input#inputAutologin.form-control(type="text" name="autologin" value=autologin placeholder="Enter your autologin link" aria-describedby="inputHelp" pattern="^(https://intra.epitech.eu/auth-)([a-z0-9]{40})$" required)
+        .invalid-feedback Invalid format, please use the full autologin link provided by the intra.
+        small#inputHelp.form-text.text-muted Your autologin link is stored on your device, #[b epi.today] doesn't know store your intra information.
+      button.custom-shadow.btn.btn-outline-primary.btn-lg(type="submit") Log in
+
+block javascript
+  script(src="/validation.js")

@@ -4,11 +4,11 @@ block extra_head
   meta(http-equiv="refresh", content="2; url=/")
 
 block content
-  include ../navbar-public
+  include ../navbar
   #main.container
     h1 Hello world
 
-    p You are now logged in.
+    p You are now logged in as #[b #{student.email}].
     p Redirecting you to the home page...
 
     div.d-flex.justify-content-center(style={"margin": "50px auto"})

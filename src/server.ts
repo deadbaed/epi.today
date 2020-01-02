@@ -27,6 +27,7 @@ if (env.MODE == "prod") {
 }
 
 server.use(express.json());
+server.use(express.urlencoded({ extended: false }));
 
 // import routes
 import rootRoutes from "./root/routes";
