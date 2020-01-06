@@ -4,6 +4,8 @@ what's on the calendar today at epitech?
 
 See it live on [epi.today](https://epi.today)!
 
+Licensed under the [MIT License](license.txt).
+
 ## maintenance
 
 A maintenance page can be found on the repo [maintenance.html](maintenance.html) which is a file to be rendered when the application is not available.
