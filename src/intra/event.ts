@@ -67,7 +67,7 @@ function ConstructRequestURL(autologin: string, year: string, month: string, day
  */
 function storeJSON(json: any, IntraRequest: IntraRequestType, current_semester: number) {
     json.forEach((event: any) => {
-        if (event.semester == current_semester || event.semester == 0) {
+        if (event.semester == current_semester || event.semester == (current_semester - 1) || event.semester == 0) {
             IntraRequest.EventList.push({
                 semester: event.semester,
                 module: event.titlemodule,
