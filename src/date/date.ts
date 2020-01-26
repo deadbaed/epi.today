@@ -82,6 +82,7 @@ export const SpecificDate = async (req: express.Request, res: express.Response, 
         yesterdayLink: moment(yesterday).format("/YYYY/MM/DD"),
         tomorrow: moment(tomorrow).format("dddd"),
         tomorrowLink: moment(tomorrow).format("/YYYY/MM/DD"),
+        intraURL: "https://intra.epitech.eu/planning/#!/?start=" + moment(date).format("YYYY-MM-DD"),
         student: Student
     });
 };
