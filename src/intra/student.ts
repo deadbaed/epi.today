@@ -49,7 +49,7 @@ async function getStudent(autologin: string): Promise<StudentType> {
                 credits: json_parsed.credits,
                 gpa: (isJSONParsingEmpty(json_parsed.gpa) == true) ? 0 : json_parsed.gpa[0].gpa,
                 log: (isJSONParsingEmpty(json_parsed.nsstat) == true) ? 0 : json_parsed.nsstat.active,
-                semester: json_parsed.semester,
+                semester: (json_parsed.semester == undefined) ? 0 : json_parsed.semester,
                 first_group: (isJSONParsingEmpty(json_parsed.groups) == true) ? "" : json_parsed.groups[0].title
             };
         }

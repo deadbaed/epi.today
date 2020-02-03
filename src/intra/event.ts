@@ -45,10 +45,10 @@ type IntraRequestType = {
  * @param day day of events
  * @returns URL ready to be used
  */
-function ConstructRequestURL(autologin: string, year: string, month: string, day: string) : string {
+function ConstructRequestURL(autologin: string, year: string, month: string, day: string): string {
     let RequestURL: string;
 
-    RequestURL  = "https://intra.epitech.eu/" + autologin;
+    RequestURL = "https://intra.epitech.eu/" + autologin;
     // RequestURL  = "https://intra.epitech.eu/"; /* 403 error */
     // RequestURL  = "http://localhost:123/"; /* unreachable */
 
@@ -67,7 +67,13 @@ function ConstructRequestURL(autologin: string, year: string, month: string, day
  */
 function storeJSON(json: any, IntraRequest: IntraRequestType, current_semester: number) {
     json.forEach((event: any) => {
-        if (event.semester == current_semester || event.semester == (current_semester - 1) || event.semester == 0) {
+        /*
+         * current_semester == 0 -> account is a pedagogical account
+         * event.semester == current_semester -> event belongs to current semester
+         * event.semester == (current_semester - 1) -> event belongs to previous semester
+         * event.semester == 0 -> event belongs to semester 0 (hub, com, etc)
+         */
+        if (current_semester == 0 || event.semester == current_semester || event.semester == (current_semester - 1) || event.semester == 0) {
             IntraRequest.EventList.push({
                 semester: event.semester,
                 module: event.titlemodule,
@@ -94,7 +100,7 @@ function storeJSON(json: any, IntraRequest: IntraRequestType, current_semester: 
  * @param current_semester number of current semester of student
  * @returns Array of matching events (empty array if there are no events) or an error
  */
-async function getEvents(autologin: string, year: string, month: string, day: string, current_semester: number) : Promise<IntraRequestType> {
+async function getEvents(autologin: string, year: string, month: string, day: string, current_semester: number): Promise<IntraRequestType> {
     /* declare an empty IntraRequestType with a empty EventList */
     let IntraRequest: IntraRequestType = <IntraRequestType>{};
     IntraRequest.EventList = [];
