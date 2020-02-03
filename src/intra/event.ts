@@ -64,8 +64,9 @@ function ConstructRequestURL(autologin: string, year: string, month: string, day
  * @param json raw json
  * @param IntraRequest
  * @param current_semester current semester of student
+ * @param all_events show only registered events or all events
  */
-function storeJSON(json: any, IntraRequest: IntraRequestType, current_semester: number) {
+function storeJSON(json: any, IntraRequest: IntraRequestType, current_semester: number, all_events: boolean) {
     json.forEach((event: any) => {
         /*
          * current_semester == 0 -> account is a pedagogical account
@@ -74,19 +75,22 @@ function storeJSON(json: any, IntraRequest: IntraRequestType, current_semester: 
          * event.semester == 0 -> event belongs to semester 0 (hub, com, etc)
          */
         if (current_semester == 0 || event.semester == current_semester || event.semester == (current_semester - 1) || event.semester == 0) {
-            IntraRequest.EventList.push({
-                semester: event.semester,
-                module: event.titlemodule,
-                name: event.acti_title,
-                registered: (event.event_registered == "registered" || event.event_registered == "present") ? true : false,
-                teacher: event.title,
-                time: {
-                    start: moment(event.start).format("HH:mm"),
-                    end: moment(event.end).format("HH:mm")
-                },
-                url: `https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/`,
-                studentsRegistered: (event.is_rdv == "1") ? `https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/rdv/` : `https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/${event.codeevent}/registered`,
-            });
+            /* get all events if all_events is set to true, otherwise get events only if they are marked as "registered" or "present" */
+            if ((all_events == false && (event.event_registered == "registered" || event.event_registered == "present")) || all_events == true) {
+                IntraRequest.EventList.push({
+                    semester: event.semester,
+                    module: event.titlemodule,
+                    name: event.acti_title,
+                    registered: (event.event_registered == "registered" || event.event_registered == "present") ? true : false,
+                    teacher: event.title,
+                    time: {
+                        start: moment(event.start).format("HH:mm"),
+                        end: moment(event.end).format("HH:mm")
+                    },
+                    url: `https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/`,
+                    studentsRegistered: (event.is_rdv == "1") ? `https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/rdv/` : `https://intra.epitech.eu/module/${event.scolaryear}/${event.codemodule}/${event.codeinstance}/${event.codeacti}/${event.codeevent}/registered`,
+                });
+            }
         }
     });
 }
@@ -98,9 +102,10 @@ function storeJSON(json: any, IntraRequest: IntraRequestType, current_semester: 
  * @param month  month of events
  * @param day day of events
  * @param current_semester number of current semester of student
+ * @param all_events show only registered events or all events
  * @returns Array of matching events (empty array if there are no events) or an error
  */
-async function getEvents(autologin: string, year: string, month: string, day: string, current_semester: number): Promise<IntraRequestType> {
+async function getEvents(autologin: string, year: string, month: string, day: string, current_semester: number, all_events: boolean): Promise<IntraRequestType> {
     /* declare an empty IntraRequestType with a empty EventList */
     let IntraRequest: IntraRequestType = <IntraRequestType>{};
     IntraRequest.EventList = [];
@@ -148,7 +153,7 @@ async function getEvents(autologin: string, year: string, month: string, day: st
                     return IntraRequest;
                 }
 
-                storeJSON(json_parsed, IntraRequest, current_semester);
+                storeJSON(json_parsed, IntraRequest, current_semester, all_events);
             }
         });
     } catch (err) {

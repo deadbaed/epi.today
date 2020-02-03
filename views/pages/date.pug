@@ -10,6 +10,11 @@ block content
         a.custom-shadow.btn.btn-outline-primary.btn-lg(role="button" href=yesterdayLink aria-pressed="true") &laquo; #{yesterday}
       li.page-item.date-button
         a.custom-shadow.btn.btn-outline-primary.btn-lg(role="button" href=tomorrowLink aria-pressed="true") #{tomorrow} &raquo;
+    ul.pagination.justify-content-center
+      li.page-item.date-button
+        a.custom-shadow.btn.btn-outline-info.btn(role="button" href=allEventsLink aria-pressed="true") See all events
+      li.page-item.date-button
+        a.custom-shadow.btn.btn-outline-info.btn(role="button" href=onlyRegisteredLink aria-pressed="true") See registered events
 
     if events != 0
       for event in events

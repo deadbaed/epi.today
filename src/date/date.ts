@@ -39,6 +39,9 @@ export const SpecificDate = async (req: express.Request, res: express.Response, 
     /* parse date, make sure the final format is YYYY-MM-DD */
     const date = moment(req.params.year + "-" + req.params.month + "-" + req.params.day, "YYYY-MM-DD", true);
 
+    /* show only registered event or all events */
+    const all_events: boolean = (req.query.all_events == "true") ? true : false;
+
     /* if date is invalid or format is not respected */
     if (date.isValid() == false) {
         return res.status(400).render("errors/400", {
@@ -56,7 +59,7 @@ export const SpecificDate = async (req: express.Request, res: express.Response, 
     const day: string = moment(date).format("DD");
 
     let Student: StudentType = await getStudent(req.cookies.autologin);
-    let IntraRequest: IntraRequestType = await getEvents(req.cookies.autologin, year, month, day, Student.semester);
+    let IntraRequest: IntraRequestType = await getEvents(req.cookies.autologin, year, month, day, Student.semester, all_events);
 
     if (IntraRequest.Error) {
         if (IntraRequest.Error.code == ErrorCode.HTTP403) {
@@ -83,6 +86,8 @@ export const SpecificDate = async (req: express.Request, res: express.Response, 
         tomorrow: moment(tomorrow).format("dddd"),
         tomorrowLink: moment(tomorrow).format("/YYYY/MM/DD"),
         intraURL: "https://intra.epitech.eu/planning/#!/?start=" + moment(date).format("YYYY-MM-DD"),
+        allEventsLink: "/" + moment(date).format("YYYY/MM/DD") + "?all_events=true",
+        onlyRegisteredLink: "/" + moment(date).format("YYYY/MM/DD"),
         student: Student
     });
 };
