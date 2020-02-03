@@ -6,11 +6,15 @@ block content
     h1 epi.today
 
     h4 #{student.name}
-    h4
-      span.badge.badge-primary tek#{student.year}
-    p GPA: #[b #{student.gpa}]
-    p Credits acquired: #[b #{student.credits}]
-    p Log time: #[b #{student.log} hours]
+    if student.year == 0
+      h4
+        span.badge.badge-danger AER
+    else
+      h4
+        span.badge.badge-primary tek#{student.year}
+      p GPA: #[b #{student.gpa}]
+      p Credits acquired: #[b #{student.credits}]
+      p Log time: #[b #{student.log} hours]
 
     hr
 

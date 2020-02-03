@@ -11,7 +11,7 @@ type StudentType = {
     semester: number;
 };
 
-async function getStudent(autologin: string) : Promise<StudentType> {
+async function getStudent(autologin: string): Promise<StudentType> {
     let Student: StudentType = <StudentType>{};
 
     const RequestURL = "https://intra.epitech.eu/" + autologin + "/user/?format=json";
@@ -44,9 +44,9 @@ async function getStudent(autologin: string) : Promise<StudentType> {
             Student = {
                 name: json_parsed.firstname + " " + json_parsed.lastname,
                 email: json_parsed.internal_email,
-                year: json_parsed.studentyear,
+                year: (json_parsed.studentyear == null) ? 0 : json_parsed.studentyear,
                 credits: json_parsed.credits,
-                gpa: json_parsed.gpa[0].gpa,
+                gpa: (isJSONParsingEmpty(json_parsed.gpa) == true) ? 0 : json_parsed.gpa[0].gpa,
                 log: (isJSONParsingEmpty(json_parsed.nsstat) == true) ? 0 : json_parsed.nsstat.active,
                 semester: json_parsed.semester
             };
