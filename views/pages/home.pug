@@ -8,10 +8,10 @@ block content
     h4 #{student.name}
     if student.year == 0
       h4
-        span.badge.badge-danger AER
+        span.badge.badge-danger #{student.first_group}
     else
       h4
-        span.badge.badge-primary tek#{student.year}
+        span.badge.badge-primary tek#{student.year} #{student.first_group}
       p GPA: #[b #{student.gpa}]
       p Credits acquired: #[b #{student.credits}]
       p Log time: #[b #{student.log} hours]
