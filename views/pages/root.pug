@@ -10,7 +10,7 @@ block content
       button(type="button" class="close" data-dismiss="alert" aria-label="Close")
         span(aria-hidden="true") &times;
 
-    p Welcome to epi.today! #[i insert blah-blah about the website here]
+    p Welcome to epi.today! It's like the intra but simpler. You'll see.
 
     h2 Log in
 
@@ -25,7 +25,7 @@ block content
       .form-group
         input#inputAutologin.form-control(type="text" name="autologin" value=autologin placeholder="Enter your autologin link" aria-describedby="inputHelp" pattern="^(https://intra.epitech.eu/auth-)([a-z0-9]{40})$" required)
         .invalid-feedback Invalid format, please use the full autologin link provided by the intra.
-        small#inputHelp.form-text.text-muted Your autologin link is stored on your device, #[b epi.today] doesn't know store your intra information.
+        small#inputHelp.form-text.text-muted Your autologin link is stored on your device as a cookie, #[b epi.today] doesn't store any information about you.
       button.custom-shadow.btn.btn-outline-primary.btn-lg(type="submit") Log in
 
 block javascript
