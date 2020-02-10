@@ -40,7 +40,7 @@ export const SpecificDate = async (req: express.Request, res: express.Response, 
     const date = moment(req.params.year + "-" + req.params.month + "-" + req.params.day, "YYYY-MM-DD", true);
 
     /* show only registered event or all events */
-    const all_events: boolean = (req.query.all_events == "true") ? true : false;
+    let all_events: boolean = (req.query.all_events == "true") ? true : false;
 
     /* if date is invalid or format is not respected */
     if (date.isValid() == false) {
@@ -59,6 +59,7 @@ export const SpecificDate = async (req: express.Request, res: express.Response, 
     const day: string = moment(date).format("DD");
 
     let Student: StudentType = await getStudent(req.cookies.autologin);
+    if (Student.year == 0) all_events = true; /* if a user is a peda account, always request all events */
     let IntraRequest: IntraRequestType = await getEvents(req.cookies.autologin, year, month, day, Student.semester, all_events);
 
     if (IntraRequest.Error) {
