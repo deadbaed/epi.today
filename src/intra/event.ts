@@ -60,6 +60,23 @@ function ConstructRequestURL(autologin: string, year: string, month: string, day
 };
 
 /**
+ * Get additional information about event
+ * @param event json with event info
+ */
+function getSupplementInfo(event: any): string {
+    if (event.title == null && isJSONParsingEmpty(event.room) == true)
+        return "";
+    else if (event.title == null && isJSONParsingEmpty(event.room.code) == false) {
+        let raw_room = event.room.code.split(/^[a-zA-Z]+\/[a-zA-Z]+\//g);
+        let formatted_room: string = raw_room[1];
+        formatted_room = formatted_room.replace("/", " → ");
+        formatted_room = formatted_room.replace(/-/g, " ");
+        return formatted_room;
+    } else
+        return event.title;
+};
+
+/**
  * Stores JSON in EventList
  * @param json raw json
  * @param IntraRequest
@@ -82,7 +99,7 @@ function storeJSON(json: any, IntraRequest: IntraRequestType, current_semester: 
                     module: event.titlemodule,
                     name: event.acti_title,
                     registered: (event.event_registered == "registered" || event.event_registered == "present") ? true : false,
-                    teacher: event.title,
+                    teacher: getSupplementInfo(event),
                     time: {
                         start: moment(event.start).format("HH:mm"),
                         end: moment(event.end).format("HH:mm")
