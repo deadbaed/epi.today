@@ -8,8 +8,6 @@ require("./authentication");
 
 const server = express();
 
-server.locals.commitID = require('child_process').execSync('git rev-parse --short HEAD').toString().trim();
-
 server.use(cookieParser());
 
 server.use(cookieSession({
