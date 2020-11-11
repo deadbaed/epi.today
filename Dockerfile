@@ -5,7 +5,7 @@ WORKDIR /usr/src/build/epi.today
 
 ADD . .
 
-RUN npm install --slient
+RUN npm install --silent
 
 RUN npm run build
 
