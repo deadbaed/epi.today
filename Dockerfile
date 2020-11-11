@@ -30,7 +30,7 @@ COPY --from=builder /usr/src/build/epi.today/package.json .
 COPY --from=builder /usr/src/build/epi.today/package-lock.json .
 ADD .env-docker .env
 
-RUN npm install --only=prod --slient
+RUN npm install --only=prod --silent
 
 EXPOSE 8042
 
