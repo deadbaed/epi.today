@@ -40,7 +40,7 @@
     "morgan": "^1.9.1",
     "passport": "^0.4.1",
     "passport-azure-ad-oauth2": "0.0.4",
-    "pug": "^2.0.4",
+    "pug": "^3.0.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.5"
   },
